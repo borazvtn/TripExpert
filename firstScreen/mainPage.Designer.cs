@@ -176,7 +176,7 @@ namespace firstScreen
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "mainPage";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "TripExpert";
+            Text = "s";
             FormClosed += mainPage_FormClosed;
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
