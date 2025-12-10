@@ -57,5 +57,20 @@ namespace firstScreen
                 Application.Exit();
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FavoritesForm favoritesForm = new FavoritesForm();
+            this.Hide();
+            DialogResult result = favoritesForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                this.Show();
+            }
+            else
+            {
+                Application.Exit();
+            }
+        }
     }
 }

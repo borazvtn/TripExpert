@@ -86,6 +86,7 @@ namespace firstScreen
             button2.TabIndex = 3;
             button2.Text = "Favorites";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // label1
             // 
@@ -176,7 +177,7 @@ namespace firstScreen
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "mainPage";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "s";
+            Text = "TripExpert";
             FormClosed += mainPage_FormClosed;
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
