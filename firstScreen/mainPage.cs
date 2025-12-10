@@ -28,8 +28,7 @@ namespace firstScreen
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            Application.Restart();
         }
 
         private void mainPage_FormClosed(object sender, FormClosedEventArgs e)

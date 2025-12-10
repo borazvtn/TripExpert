@@ -33,7 +33,7 @@ namespace firstScreen
         private void InitializeComponent()
         {
             mainPanel = new Panel();
-            SignOutButton = new Button();
+            MainSignOutButton = new Button();
             button2 = new Button();
             label1 = new Label();
             button1 = new Button();
@@ -51,7 +51,7 @@ namespace firstScreen
             // mainPanel
             // 
             mainPanel.BackColor = Color.AliceBlue;
-            mainPanel.Controls.Add(SignOutButton);
+            mainPanel.Controls.Add(MainSignOutButton);
             mainPanel.Controls.Add(button2);
             mainPanel.Controls.Add(label1);
             mainPanel.Controls.Add(button1);
@@ -60,19 +60,19 @@ namespace firstScreen
             mainPanel.Size = new Size(167, 551);
             mainPanel.TabIndex = 0;
             // 
-            // SignOutButton
+            // MainSignOutButton
             // 
-            SignOutButton.BackColor = Color.AliceBlue;
-            SignOutButton.BackgroundImageLayout = ImageLayout.Center;
-            SignOutButton.FlatStyle = FlatStyle.Popup;
-            SignOutButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            SignOutButton.Location = new Point(-90, 519);
-            SignOutButton.Name = "SignOutButton";
-            SignOutButton.Size = new Size(262, 32);
-            SignOutButton.TabIndex = 4;
-            SignOutButton.Text = "Sign out";
-            SignOutButton.UseVisualStyleBackColor = false;
-            SignOutButton.Click += button3_Click;
+            MainSignOutButton.BackColor = Color.AliceBlue;
+            MainSignOutButton.BackgroundImageLayout = ImageLayout.Center;
+            MainSignOutButton.FlatStyle = FlatStyle.Popup;
+            MainSignOutButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            MainSignOutButton.Location = new Point(-90, 519);
+            MainSignOutButton.Name = "MainSignOutButton";
+            MainSignOutButton.Size = new Size(262, 32);
+            MainSignOutButton.TabIndex = 4;
+            MainSignOutButton.Text = "Sign out";
+            MainSignOutButton.UseVisualStyleBackColor = false;
+            MainSignOutButton.Click += button3_Click;
             // 
             // button2
             // 
@@ -190,7 +190,7 @@ namespace firstScreen
         #endregion
 
         private Panel mainPanel;
-        private Button SignOutButton;
+        private Button MainSignOutButton;
         private Button button2;
         private Label label1;
         private Button button1;

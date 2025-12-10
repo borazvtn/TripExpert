@@ -80,6 +80,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             BackColor = Color.PaleTurquoise;
             ClientSize = new Size(782, 553);
             Controls.Add(firstlogButton);
