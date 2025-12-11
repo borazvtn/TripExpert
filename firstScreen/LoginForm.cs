@@ -10,7 +10,7 @@ namespace firstScreen
         private void loginButton_Click(object sender, EventArgs e)
         {
             mainPage mainpage = new mainPage();
-            if (logUsernameTextbox.Text == "nerdynerdy23" && logpassTextbox.Text == "sakiz1903")
+            if (logUsernameTextbox.Text == "admin" && logpassTextbox.Text == "123")
             {
                 MessageBox.Show("giris basarili");
                 this.Hide();
@@ -27,7 +27,7 @@ namespace firstScreen
 
             }
             else
-                MessageBox.Show("e posta veya sifre hatali");
+                MessageBox.Show("kullanici adi veya sifre hatali");
         }
 
         private void logSignButton_Click(object sender, EventArgs e)

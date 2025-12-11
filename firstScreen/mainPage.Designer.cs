@@ -55,20 +55,22 @@ namespace firstScreen
             mainPanel.Controls.Add(button2);
             mainPanel.Controls.Add(label1);
             mainPanel.Controls.Add(button1);
-            mainPanel.Location = new Point(1, 2);
+            mainPanel.Dock = DockStyle.Left;
+            mainPanel.Location = new Point(0, 0);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(167, 551);
+            mainPanel.Size = new Size(167, 553);
             mainPanel.TabIndex = 0;
             // 
             // MainSignOutButton
             // 
             MainSignOutButton.BackColor = Color.AliceBlue;
             MainSignOutButton.BackgroundImageLayout = ImageLayout.Center;
+            MainSignOutButton.Dock = DockStyle.Bottom;
             MainSignOutButton.FlatStyle = FlatStyle.Popup;
             MainSignOutButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            MainSignOutButton.Location = new Point(-90, 519);
+            MainSignOutButton.Location = new Point(0, 521);
             MainSignOutButton.Name = "MainSignOutButton";
-            MainSignOutButton.Size = new Size(262, 32);
+            MainSignOutButton.Size = new Size(167, 32);
             MainSignOutButton.TabIndex = 4;
             MainSignOutButton.Text = "Sign out";
             MainSignOutButton.UseVisualStyleBackColor = false;
@@ -114,6 +116,7 @@ namespace firstScreen
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(300, 5);
@@ -124,6 +127,7 @@ namespace firstScreen
             // 
             // CityComboBox
             // 
+            CityComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CityComboBox.FormattingEnabled = true;
             CityComboBox.Items.AddRange(new object[] { "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın", "Balıkesir", "Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kırıkkale", "Kırklareli", "Kırşehir", "Kilis", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Şanlıurfa", "Şırnak", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak" });
             CityComboBox.Location = new Point(631, 14);
@@ -135,6 +139,7 @@ namespace firstScreen
             // 
             // AnkarapictureBox
             // 
+            AnkarapictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             AnkarapictureBox.Image = Resources.ankara;
             AnkarapictureBox.Location = new Point(483, 53);
             AnkarapictureBox.Name = "AnkarapictureBox";
@@ -145,6 +150,7 @@ namespace firstScreen
             // 
             // İstanbulpictureBox
             // 
+            İstanbulpictureBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             İstanbulpictureBox.Image = Resources.istanbul;
             İstanbulpictureBox.Location = new Point(169, 221);
             İstanbulpictureBox.Name = "İstanbulpictureBox";
@@ -154,6 +160,7 @@ namespace firstScreen
             // 
             // İzmirpictureBox
             // 
+            İzmirpictureBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             İzmirpictureBox.Image = Resources.izmir;
             İzmirpictureBox.Location = new Point(472, 391);
             İzmirpictureBox.Name = "İzmirpictureBox";

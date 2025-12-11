@@ -24,8 +24,7 @@ namespace firstScreen
 
         private void ProfileSignOutButton_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            Application.Restart();
         }
     }
 }

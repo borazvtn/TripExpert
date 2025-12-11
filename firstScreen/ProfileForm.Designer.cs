@@ -31,12 +31,13 @@
             ProfileToMain = new Button();
             ProfileLabel = new Label();
             ProfilePanel = new Panel();
-            label2 = new Label();
             label1 = new Label();
             ProfileNameLabel = new Label();
             ProfileSignOutButton = new Button();
             ProfileUserNameLabel = new Label();
+            pictureBox1 = new PictureBox();
             ProfilePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // ProfileToMain
@@ -61,8 +62,8 @@
             // 
             // ProfilePanel
             // 
-            ProfilePanel.BackColor = Color.MediumTurquoise;
-            ProfilePanel.Controls.Add(label2);
+            ProfilePanel.BackColor = Color.LightCyan;
+            ProfilePanel.Controls.Add(pictureBox1);
             ProfilePanel.Controls.Add(label1);
             ProfilePanel.Controls.Add(ProfileNameLabel);
             ProfilePanel.Controls.Add(ProfileSignOutButton);
@@ -71,15 +72,6 @@
             ProfilePanel.Name = "ProfilePanel";
             ProfilePanel.Size = new Size(784, 469);
             ProfilePanel.TabIndex = 2;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(15, 176);
-            label2.Name = "label2";
-            label2.Size = new Size(50, 20);
-            label2.TabIndex = 6;
-            label2.Text = "label2";
             // 
             // label1
             // 
@@ -91,7 +83,7 @@
             // ProfileNameLabel
             // 
             ProfileNameLabel.AutoSize = true;
-            ProfileNameLabel.Location = new Point(15, 87);
+            ProfileNameLabel.Location = new Point(15, 96);
             ProfileNameLabel.Name = "ProfileNameLabel";
             ProfileNameLabel.Size = new Size(40, 20);
             ProfileNameLabel.TabIndex = 5;
@@ -99,7 +91,7 @@
             // 
             // ProfileSignOutButton
             // 
-            ProfileSignOutButton.BackColor = Color.LightSteelBlue;
+            ProfileSignOutButton.BackColor = Color.PowderBlue;
             ProfileSignOutButton.FlatStyle = FlatStyle.Popup;
             ProfileSignOutButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             ProfileSignOutButton.Location = new Point(650, 421);
@@ -114,11 +106,21 @@
             // 
             ProfileUserNameLabel.AutoSize = true;
             ProfileUserNameLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            ProfileUserNameLabel.Location = new Point(15, 23);
+            ProfileUserNameLabel.Location = new Point(15, 57);
             ProfileUserNameLabel.Name = "ProfileUserNameLabel";
             ProfileUserNameLabel.Size = new Size(108, 28);
             ProfileUserNameLabel.TabIndex = 3;
             ProfileUserNameLabel.Text = "asdasdasd";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.UserIcon;
+            pictureBox1.Location = new Point(39, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(50, 51);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
             // 
             // ProfileForm
             // 
@@ -134,6 +136,7 @@
             Text = "TripExpert";
             ProfilePanel.ResumeLayout(false);
             ProfilePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -147,6 +150,6 @@
         private Label ProfileUserNameLabel;
         private Label label1;
         private Label ProfileNameLabel;
-        private Label label2;
+        private PictureBox pictureBox1;
     }
 }

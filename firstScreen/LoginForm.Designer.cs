@@ -117,6 +117,7 @@ namespace firstScreen
             logpassTextbox.Location = new Point(96, 203);
             logpassTextbox.Multiline = true;
             logpassTextbox.Name = "logpassTextbox";
+            logpassTextbox.PasswordChar = '*';
             logpassTextbox.Size = new Size(226, 34);
             logpassTextbox.TabIndex = 4;
             // 
