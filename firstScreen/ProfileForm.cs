@@ -1,3 +1,4 @@
+using firstScreen.Properties;
 namespace firstScreen
 {
     public partial class ProfileForm : Form

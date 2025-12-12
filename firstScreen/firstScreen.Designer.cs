@@ -40,9 +40,9 @@
             headerLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             headerLabel.Location = new Point(300, 5);
             headerLabel.Name = "headerLabel";
-            headerLabel.Size = new Size(167, 41);
+            headerLabel.Size = new Size(161, 41);
             headerLabel.TabIndex = 0;
-            headerLabel.Text = "TripExpert";
+            headerLabel.Text = "GoTürkiye";
             // 
             // firstmessageLabel
             // 
@@ -89,7 +89,7 @@
             Controls.Add(headerLabel);
             Name = "firstScreen";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "TripExpert";
+            Text = "GoTürkiye";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -121,9 +121,9 @@ namespace firstScreen
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(300, 5);
             label2.Name = "label2";
-            label2.Size = new Size(167, 41);
+            label2.Size = new Size(161, 41);
             label2.TabIndex = 1;
-            label2.Text = "TripExpert";
+            label2.Text = "GoTürkiye";
             // 
             // CityComboBox
             // 
@@ -184,7 +184,7 @@ namespace firstScreen
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "mainPage";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "TripExpert";
+            Text = "GoTürkiye";
             FormClosed += mainPage_FormClosed;
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();

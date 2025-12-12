@@ -21,5 +21,40 @@ namespace firstScreen
                 Application.Exit();
             }
         }
+
+        private void signupButton_Click(object sender, EventArgs e)
+        {
+            User newuser = new User()
+            {
+                Name = signnametextBox.Text,
+                Password = signpasstextBox.Text,
+                Nickname = signUsernametextBox.Text,
+                UserStatus = "Standart"
+            };
+
+            mainPage mainpage = new mainPage();
+            string result=UserManager.Register(newuser);
+            if(result== "Registered succesfully")
+            {
+                MessageBox.Show("Registered succesfully","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                
+                DialogResult sonuc = mainpage.ShowDialog();
+                if (sonuc == DialogResult.OK)
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+
+            }
+            else
+            {
+                MessageBox.Show(result, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
+        }
     }
 }

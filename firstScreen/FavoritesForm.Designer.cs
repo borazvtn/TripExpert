@@ -53,9 +53,9 @@
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(300, 5);
             label1.Name = "label1";
-            label1.Size = new Size(167, 41);
+            label1.Size = new Size(161, 41);
             label1.TabIndex = 0;
-            label1.Text = "TripExpert";
+            label1.Text = "GoTürkiye";
             // 
             // FavoritePictureBox1
             // 
@@ -190,7 +190,7 @@
             Controls.Add(FavoritePictureBox1);
             Controls.Add(label1);
             Name = "FavoritesForm";
-            Text = "TripExpert";
+            Text = "GoTürkiye";
             ((System.ComponentModel.ISupportInitialize)FavoritePictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)FavoritePictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)FavoritePictureBox3).EndInit();

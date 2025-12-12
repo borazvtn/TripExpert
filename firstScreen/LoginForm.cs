@@ -9,13 +9,34 @@ namespace firstScreen
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            mainPage mainpage = new mainPage();
-            if (logUsernameTextbox.Text == "admin" && logpassTextbox.Text == "123")
+            mainPage anaekran =new mainPage();
+            string girilenNick = logUsernameTextbox.Text.Trim();
+            string girilenSifre = logpassTextbox.Text.Trim();
+
+            
+            if (string.IsNullOrEmpty(girilenNick) || string.IsNullOrEmpty(girilenSifre))
             {
-                MessageBox.Show("giris basarili");
+                MessageBox.Show("Please enter valid username and password.", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            
+            User girisYapanKullanici = UserManager.Login(girilenNick, girilenSifre);
+
+           
+            if (girisYapanKullanici != null)
+            {
+                
+
+                MessageBox.Show($"Welcome, {girisYapanKullanici.Name}!", "Logged in succesfully.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                
+                mainPage anaForm = new mainPage();
+                anaForm.Show();
+                
                 this.Hide();
-                DialogResult result = mainpage.ShowDialog();
-                if (result == DialogResult.OK)
+                DialogResult sonuc = anaekran.ShowDialog();
+                if (sonuc == DialogResult.OK)
                 {
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -24,10 +45,12 @@ namespace firstScreen
                 {
                     Application.Exit();
                 }
-
             }
             else
-                MessageBox.Show("kullanici adi veya sifre hatali");
+            {
+               
+                MessageBox.Show("Wrong username or password!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void logSignButton_Click(object sender, EventArgs e)

@@ -129,7 +129,7 @@
             Controls.Add(CityNameLabel);
             Name = "CityForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "TripExpert";
+            Text = "GoTürkiye";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

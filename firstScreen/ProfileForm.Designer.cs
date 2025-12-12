@@ -1,4 +1,5 @@
-﻿namespace firstScreen
+﻿using firstScreen.Properties;
+namespace firstScreen
 {
     partial class ProfileForm
     {
@@ -31,11 +32,11 @@
             ProfileToMain = new Button();
             ProfileLabel = new Label();
             ProfilePanel = new Panel();
+            pictureBox1 = new PictureBox();
             label1 = new Label();
             ProfileNameLabel = new Label();
             ProfileSignOutButton = new Button();
             ProfileUserNameLabel = new Label();
-            pictureBox1 = new PictureBox();
             ProfilePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -72,6 +73,16 @@
             ProfilePanel.Name = "ProfilePanel";
             ProfilePanel.Size = new Size(784, 469);
             ProfilePanel.TabIndex = 2;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Resources.UserIcon;
+            pictureBox1.Location = new Point(39, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(50, 51);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -112,16 +123,6 @@
             ProfileUserNameLabel.TabIndex = 3;
             ProfileUserNameLabel.Text = "asdasdasd";
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = Properties.Resources.UserIcon;
-            pictureBox1.Location = new Point(39, 3);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(50, 51);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 7;
-            pictureBox1.TabStop = false;
-            // 
             // ProfileForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -133,7 +134,7 @@
             Controls.Add(ProfileToMain);
             Name = "ProfileForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "TripExpert";
+            Text = "GoTürkiye";
             ProfilePanel.ResumeLayout(false);
             ProfilePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

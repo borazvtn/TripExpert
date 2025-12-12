@@ -48,9 +48,9 @@ namespace firstScreen
             headerLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             headerLabel.Location = new Point(300, 5);
             headerLabel.Name = "headerLabel";
-            headerLabel.Size = new Size(167, 41);
+            headerLabel.Size = new Size(161, 41);
             headerLabel.TabIndex = 0;
-            headerLabel.Text = "TripExpert";
+            headerLabel.Text = "GoTürkiye";
             // 
             // logmessageLabel
             // 
@@ -160,7 +160,7 @@ namespace firstScreen
             Controls.Add(headerLabel);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "TripExpert";
+            Text = "GoTürkiye";
             loginPanel.ResumeLayout(false);
             loginPanel.PerformLayout();
             ResumeLayout(false);
