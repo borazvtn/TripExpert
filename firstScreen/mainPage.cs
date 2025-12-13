@@ -10,20 +10,24 @@ namespace firstScreen
 
         private void CityComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedCity = CityComboBox.SelectedItem.ToString();
-            CityForm selected = new CityForm();
-            this.Hide();
-            DialogResult result = selected.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                this.Show();
-            }
-            else
-            {
-                Application.Exit();
-            }
+            // --- BURADAN BAÞLAYIP YAPIÞTIRIN ---
 
+            // 1. GÜVENLÝK KÝLÝDÝ: Eðer kutu boþsa veya seçim yoksa DUR.
+            // (Programýn çökmesini engelleyen satýr budur)
+            ComboBox kutu = (ComboBox)sender;
+            if (kutu.SelectedItem == null) return;
 
+            string secilenSehirAdi = kutu.SelectedItem.ToString();
+
+            // 2. Gereksiz yazýlarý filtrele
+            if (secilenSehirAdi == "Please select a city" || secilenSehirAdi == "") return;
+
+            // 3. Þehir Ekranýný Aç
+            // (Seçilen þehrin adýný gönderiyoruz, o da gidip veritabanýndan buluyor)
+            SehirDetayForm detayFormu = new SehirDetayForm(secilenSehirAdi);
+            detayFormu.ShowDialog();
+
+            // --- BURADA BÝTÝYOR ---
         }
 
         private void button3_Click(object sender, EventArgs e)

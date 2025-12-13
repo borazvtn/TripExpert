@@ -23,70 +23,77 @@ namespace firstScreen
 
             if (!File.Exists(placesDbName))
             {
-                MessageBox.Show("Mekan veritabanı (gezilecek_yerler.db) bulunamadı! Lütfen dosyayı projenin olduğu klasöre atın.");
+                MessageBox.Show("Mekan veritabanı bulunamadı!");
                 return;
             }
 
             using (SQLiteConnection conn = new SQLiteConnection(placesConnString))
             {
                 conn.Open();
-            
-                string sql = "SELECT * FROM Mekanlar";
+
+                // Dedektif kodlarını kaldırdık, artık gerçek işimize bakıyoruz.
+                string sql = "SELECT * FROM Places";
 
                 using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        //ŞEHİR İŞLEMLERİ
-                        string dbCityName = reader["CityName"].ToString();
-                        Sehir mevcutSehir = AllCities.FirstOrDefault(x => x.Name == dbCityName);
-
-                        if (mevcutSehir == null)
-                        {
-                            mevcutSehir = new Sehir()
-                            {
-                                Name = dbCityName,
-                                Plaka = 0, // DB'de plaka sütunu yoksa varsayılan 0
-                                Description = dbCityName + " şehri.",
-                                ImageFileURL = ""
-                            };
-                            AllCities.Add(mevcutSehir);
-                        }
-
-                        //MEKAN İŞLEMLERİ
-                        Mekan yeniMekan = new Mekan()
-                        {
-                            Id = Convert.ToInt32(reader["ID"]),
-                            Name = reader["PlaceName"].ToString(),
-                            // Null kontrolü
-                            ImageUrl = reader["ImageUrl"] != DBNull.Value ? reader["ImageUrl"].ToString() : "",
-                            Type = reader["Type"] != DBNull.Value ? reader["Type"].ToString() : "Genel",
-                            Description = reader["Description"] != DBNull.Value ? reader["Description"].ToString() : ""
-                        };
-
-                        //PUANLAMA MATEMATİĞİ
                         try
                         {
-                        
-                            yeniMekan.TotalScore = reader["TotalScore"] != DBNull.Value ? Convert.ToInt32(reader["TotalScore"]) : 0;
-                            yeniMekan.VoteCount = reader["VoteCount"] != DBNull.Value ? Convert.ToInt32(reader["VoteCount"]) : 0;
-                        }
-                        catch
-                        {
-                            // Sütun yoksa veya hata olursa sıfırla
-                            yeniMekan.TotalScore = 0;
-                            yeniMekan.VoteCount = 0;
-                        }
+                            // 1. ŞEHİR İŞLEMLERİ
+                            string dbCityName = reader["CityName"].ToString();
 
-                        mevcutSehir.Mekanlar.Add(yeniMekan);
+                            // Plaka numarasını da alalım (Veritabanında 'PlateNumber' varmış)
+                            int dbPlaka = 0;
+                            try { dbPlaka = Convert.ToInt32(reader["PlateNumber"]); } catch { }
+
+                            Sehir mevcutSehir = AllCities.FirstOrDefault(x => x.Name == dbCityName);
+
+                            if (mevcutSehir == null)
+                            {
+                                mevcutSehir = new Sehir()
+                                {
+                                    Name = dbCityName,
+                                    Plaka = dbPlaka,
+                                    Description = dbCityName + " şehri.",
+                                    ImageFileURL = ""
+                                };
+                                AllCities.Add(mevcutSehir);
+                            }
+
+                            // 2. MEKAN İŞLEMLERİ
+                            // DİKKAT: Sadece arkadaşınızın oluşturduğu sütunları okuyoruz.
+                            // Olmayanları (Type, TotalScore vs.) sildik.
+                            Mekan yeniMekan = new Mekan()
+                            {
+                                Id = Convert.ToInt32(reader["Id"]), // Büyük/Küçük harf duyarlılığı için Id yazdım
+                                Name = reader["PlaceName"].ToString(),
+                                ImageUrl = reader["ImageUrl"] != DBNull.Value ? reader["ImageUrl"].ToString() : "",
+                                Description = reader["Description"] != DBNull.Value ? reader["Description"].ToString() : "",
+
+                                // Veritabanında "Type" olmadığı için varsayılan atıyoruz
+                                Type = "Genel",
+
+                                // Veritabanında puanlar olmadığı için 0 başlatıyoruz
+                                TotalScore = 0,
+                                VoteCount = 0
+                            };
+
+                            mevcutSehir.Mekanlar.Add(yeniMekan);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Olası bir okuma hatasında program çökmesin, hatayı göstersin
+                            MessageBox.Show("Veri okuma hatası: " + ex.Message);
+                        }
                     }
                 }
             }
         }
 
         // -----------------------------------------------------------
-        // KULLANICI VERİLERİ (KullaniciVerileri.db)
+        // KULLANICI VERİLERİ 
         // -----------------------------------------------------------
         private static string userDbName = "KullaniciVerileri.db";
         private static string userConnString = $"Data Source={userDbName};Version=3;";
@@ -130,7 +137,6 @@ namespace firstScreen
                 using (SQLiteConnection conn = new SQLiteConnection(userConnString))
                 {
                     conn.Open();
-                    // Önce kullanıcı adı var mı kontrol et
                     string checkSql = "SELECT COUNT(*) FROM Users WHERE Nickname = @nick";
                     using (SQLiteCommand cmd = new SQLiteCommand(checkSql, conn))
                     {
@@ -139,7 +145,6 @@ namespace firstScreen
                         if (count > 0) return "Bu kullanıcı adı zaten alınmış.";
                     }
 
-                    // Yoksa ekle
                     string insertSql = "INSERT INTO Users (Name, Nickname, Password, UserStatus) VALUES (@name, @nick, @pass, @status)";
                     using (SQLiteCommand cmd = new SQLiteCommand(insertSql, conn))
                     {
@@ -163,7 +168,6 @@ namespace firstScreen
             using (var conn = new SQLiteConnection(userConnString))
             {
                 conn.Open();
-                // INSERT OR REPLACE
                 string query = "INSERT OR REPLACE INTO UserRatings (UserNickname, MekanId, Score, Comment) VALUES (@u, @m, @s, @c)";
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
@@ -178,26 +182,9 @@ namespace firstScreen
 
         public static void UpdateMekanRating(Mekan mekan)
         {
-            using (var conn = new SQLiteConnection(placesConnString))
-            {
-                conn.Open();
-                string sql = @"
-                    UPDATE Mekanlar
-                    SET Rating = @rating,
-                        TotalScore = @totalScore,
-                        VoteCount = @voteCount
-                    WHERE ID = @id";
-
-                using (var cmd = new SQLiteCommand(sql, conn))
-                {
-                    // AverageScore, Mekan sınıfındaki property'den otomatik hesaplanır
-                    cmd.Parameters.AddWithValue("@rating", mekan.AverageScore);
-                    cmd.Parameters.AddWithValue("@totalScore", mekan.TotalScore);
-                    cmd.Parameters.AddWithValue("@voteCount", mekan.VoteCount);
-                    cmd.Parameters.AddWithValue("@id", mekan.Id);
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            // NOT: Arkadaşının veritabanında Puan sütunları olmadığı için 
+            // burayı geçici olarak boş bırakıyoruz. Yoksa oy verirken hata alırsın.
+            // İleride veritabanına sütun eklenirse burayı açarız.
         }
 
         public static void LoadUserRatings(User user)
@@ -220,7 +207,6 @@ namespace firstScreen
                             int score = reader.GetInt32(1);
                             string comment = reader.IsDBNull(2) ? "" : reader.GetString(2);
 
-                            // Mekanı AllCities listesinden bulup eşleştiriyoruz
                             Mekan mekan = AllCities.SelectMany(s => s.Mekanlar).FirstOrDefault(m => m.Id == mekanId);
                             if (mekan != null)
                                 user.MyRatings.Add(new UserRatings(mekan, score, comment));

@@ -31,6 +31,7 @@
             lblAd = new Label();
             lblPuan = new Label();
             pbResim = new PictureBox();
+            btnFav = new Button();
             ((System.ComponentModel.ISupportInitialize)pbResim).BeginInit();
             SuspendLayout();
             // 
@@ -59,11 +60,23 @@
             pbResim.Size = new Size(100, 50);
             pbResim.TabIndex = 2;
             pbResim.TabStop = false;
+            pbResim.Click += pbResim_Click;
+            // 
+            // btnFav
+            // 
+            btnFav.Location = new Point(418, 75);
+            btnFav.Name = "btnFav";
+            btnFav.Size = new Size(75, 23);
+            btnFav.TabIndex = 3;
+            btnFav.Text = "fav";
+            btnFav.UseVisualStyleBackColor = true;
+            btnFav.Click += btnFav_Click;
             // 
             // YeniKart
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btnFav);
             Controls.Add(pbResim);
             Controls.Add(lblPuan);
             Controls.Add(lblAd);
@@ -79,5 +92,6 @@
         private Label lblAd;
         private Label lblPuan;
         private PictureBox pbResim;
+        private Button btnFav;
     }
 }

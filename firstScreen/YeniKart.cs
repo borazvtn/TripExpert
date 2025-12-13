@@ -1,43 +1,81 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.ComponentModel;
+using System.Drawing;
+using System.ComponentModel; // Bu kütüphane o sihirli kod için şart
 
 namespace firstScreen
 {
     public partial class YeniKart : UserControl
     {
+        // --- HATA ÇÖZÜCÜ KOD BURAYA EKLENDİ ---
+        // Bu satır Visual Studio'ya der ki: "Tasarım yaparken bu özelliği kaydetmeye çalışma!"
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Mekan MevcutMekan { get; set; }
+
         public YeniKart()
         {
             InitializeComponent();
         }
 
-        // --- KARTIN ÖZELLİKLERİ ---
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string Baslik
+        // --- AKILLI YÜKLEME METODU ---
+        public void BilgileriYukle(Mekan mekan)
         {
-            get { return lblAd.Text; }
-            set { lblAd.Text = value; }
-        }
+            MevcutMekan = mekan;
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string Puan
-        {
-            get { return lblPuan.Text; }
-            set { lblPuan.Text = value; }
-        }
+            // Yazılar ve Resim
+            lblAd.Text = mekan.Name;
+            lblPuan.Text = mekan.AverageScore > 0 ? "Puan: " + mekan.AverageScore.ToString("0.0") : "Yeni";
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string ResimYolu
-        {
-            set
+            try
             {
-                try
+                if (!string.IsNullOrEmpty(mekan.ImageUrl)) pbResim.Load(mekan.ImageUrl);
+            }
+            catch { }
+
+            // Favori Durumuna Göre Renk Ayarla
+            FavoriRenginiGuncelle();
+        }
+
+        private void FavoriRenginiGuncelle()
+        {
+            if (UserManager.CurrentUser != null && MevcutMekan != null)
+            {
+                if (UserManager.CurrentUser.IsFavorite(MevcutMekan))
                 {
-                    if (!string.IsNullOrEmpty(value))
-                        pbResim.Load(value);
+                    btnFav.Text = "❤️";
+                    btnFav.ForeColor = Color.Red;
                 }
-                catch { }
+                else
+                {
+                    btnFav.Text = "🤍";
+                    btnFav.ForeColor = Color.Black;
+                }
+            }
+        }
+
+        // --- OLAY 1: BUTON TIKLAMASI (Favorile) ---
+        private void btnFav_Click(object sender, EventArgs e)
+        {
+            if (UserManager.CurrentUser == null)
+            {
+                MessageBox.Show("Lütfen önce giriş yapın.");
+                return;
+            }
+
+            UserManager.CurrentUser.ToggleFavorite(MevcutMekan);
+            FavoriRenginiGuncelle();
+        }
+
+        // --- OLAY 2: RESİM TIKLAMASI (Açıklama Göster) ---
+        private void pbResim_Click(object sender, EventArgs e)
+        {
+            if (MevcutMekan != null && !string.IsNullOrEmpty(MevcutMekan.Description))
+            {
+                MessageBox.Show(MevcutMekan.Description, MevcutMekan.Name + " Hakkında Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Bu mekan için açıklama girilmemiş.");
             }
         }
     }

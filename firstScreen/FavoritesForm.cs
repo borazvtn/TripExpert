@@ -31,6 +31,7 @@ namespace firstScreen
             }
 
             // 3. Favorileri al
+            // (Eğer User.cs dosyanızda listenin adı MyFavorites ise burayı .MyFavorites yapın)
             List<Mekan> favoriListesi = UserManager.CurrentUser.Favorites;
 
             // 4. Favori yoksa uyar
@@ -45,17 +46,17 @@ namespace firstScreen
                 return;
             }
 
-            // 5. Kartları Bas (YeniKart kullanıyoruz)
+            // 5. Kartları Bas (GÜNCELLENEN KISIM - YeniKart Sistemi)
             foreach (Mekan mekan in favoriListesi)
             {
-                // DİKKAT: Artık ismimiz YeniKart
                 YeniKart kart = new YeniKart();
 
-                kart.Baslik = mekan.Name;
-                kart.Puan = "Puan: " + mekan.AverageScore.ToString("0.0");
-                kart.ResimYolu = mekan.ImageUrl;
-                kart.Margin = new Padding(10);
+                // --- ESKİ KODLAR SİLİNDİ (Baslik, Puan vs. yok artık) ---
 
+                // --- YENİ SİSTEM: Tek satırda her şeyi yükle ---
+                kart.BilgileriYukle(mekan);
+
+                kart.Margin = new Padding(10);
                 panelMekanlar.Controls.Add(kart);
             }
         }
