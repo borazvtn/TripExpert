@@ -1,35 +1,52 @@
-using firstScreen.Properties;
+using System;
+using System.Windows.Forms;
+
 namespace firstScreen
 {
     public partial class mainPage : Form
     {
-        public mainPage()
+        // Ýçerideki kullanýcýyý tutan deðiþken
+        User activeUser;
+
+        // KAPICI: Kimlik (User) göstermeden içeri almaz!
+        public mainPage(User user)
         {
             InitializeComponent();
+            activeUser = user;
         }
 
         private void CityComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // --- BURADAN BAÞLAYIP YAPIÞTIRIN ---
-
-            // 1. GÜVENLÝK KÝLÝDÝ: Eðer kutu boþsa veya seçim yoksa DUR.
-            // (Programýn çökmesini engelleyen satýr budur)
             ComboBox kutu = (ComboBox)sender;
             if (kutu.SelectedItem == null) return;
+            string sehir = kutu.SelectedItem.ToString();
+            if (sehir == "" || sehir == "Please select a city") return;
 
-            string secilenSehirAdi = kutu.SelectedItem.ToString();
-
-            // 2. Gereksiz yazýlarý filtrele
-            if (secilenSehirAdi == "Please select a city" || secilenSehirAdi == "") return;
-
-            // 3. Þehir Ekranýný Aç
-            // (Seçilen þehrin adýný gönderiyoruz, o da gidip veritabanýndan buluyor)
-            SehirDetayForm detayFormu = new SehirDetayForm(secilenSehirAdi);
-            detayFormu.ShowDialog();
-
-            // --- BURADA BÝTÝYOR ---
+            // Þehir detayýný aç
+            SehirDetayForm detay = new SehirDetayForm(sehir);
+            detay.ShowDialog();
         }
 
+        // FAVORÝLER BUTONU
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Zinciri kuruyoruz: Kullanýcýyý favoriler formuna atýyoruz.
+            FavoritesForm fav = new FavoritesForm(activeUser);
+            this.Hide();
+            fav.ShowDialog();
+            this.Show(); // Geri dönünce ana sayfayý tekrar göster
+        }
+
+        // PROFÝL BUTONU
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ProfileForm profil = new ProfileForm();
+            this.Hide();
+            profil.ShowDialog();
+            this.Show();
+        }
+
+        // ÇIKIÞ BUTONU
         private void button3_Click(object sender, EventArgs e)
         {
             Application.Restart();
@@ -37,44 +54,9 @@ namespace firstScreen
 
         private void mainPage_FormClosed(object sender, FormClosedEventArgs e)
         {
-            foreach (Form runningForm in Application.OpenForms)
-            {
-                if (runningForm is firstScreen)
-                {
-                    runningForm.Show();
-                    break;
-                }
-            }
+            Application.Exit();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ProfileForm profileForm = new ProfileForm();
-            this.Hide();
-            DialogResult result = profileForm.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                this.Show();
-            }
-            else
-            {
-                Application.Exit();
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            FavoritesForm favoritesForm = new FavoritesForm();
-            this.Hide();
-            DialogResult result = favoritesForm.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                this.Show();
-            }
-            else
-            {
-                Application.Exit();
-            }
-        }
+        private void mainPage_Load(object sender, EventArgs e) { }
     }
 }

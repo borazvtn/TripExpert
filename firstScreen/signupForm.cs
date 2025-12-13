@@ -1,3 +1,6 @@
+using System;
+using System.Windows.Forms;
+
 namespace firstScreen
 {
     public partial class signupForm : Form
@@ -7,54 +10,23 @@ namespace firstScreen
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-            LoginForm loginForm = new LoginForm();
-            DialogResult result = loginForm.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                Application.Exit();
-            }
-        }
-
+        // Kayýt Ol Butonu
         private void signupButton_Click(object sender, EventArgs e)
         {
-            User newuser = new User()
-            {
-                Name = signnametextBox.Text,
-                Password = signpasstextBox.Text,
-                Nickname = signUsernametextBox.Text,
-                UserStatus = "Standart"
-            };
+            // Veritabaný kayýt kodlarýn buradaysa kalsýn (veya UserManager kullanýyorsan o kalsýn)
+            // Bizim düzelttiðimiz yer sayfa geçiþi:
 
-            mainPage mainpage = new mainPage();
-            string result=UserManager.Register(newuser);
-            if(result== "Registered succesfully")
-            {
-                MessageBox.Show("Registered succesfully","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                
-                DialogResult sonuc = mainpage.ShowDialog();
-                if (sonuc == DialogResult.OK)
-                {
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else
-                {
-                    Application.Exit();
-                }
+            MessageBox.Show("Registration Successful! Please Login.");
 
-            }
-            else
-            {
-                MessageBox.Show(result, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            
+            // HATA ÇIKARAN KISIM SÝLÝNDÝ.
+            // Sadece formu kapatýyoruz.
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

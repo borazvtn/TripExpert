@@ -57,8 +57,9 @@ namespace firstScreen
             mainPanel.Controls.Add(button1);
             mainPanel.Dock = DockStyle.Left;
             mainPanel.Location = new Point(0, 0);
+            mainPanel.Margin = new Padding(3, 2, 3, 2);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(167, 553);
+            mainPanel.Size = new Size(146, 415);
             mainPanel.TabIndex = 0;
             // 
             // MainSignOutButton
@@ -68,9 +69,10 @@ namespace firstScreen
             MainSignOutButton.Dock = DockStyle.Bottom;
             MainSignOutButton.FlatStyle = FlatStyle.Popup;
             MainSignOutButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            MainSignOutButton.Location = new Point(0, 521);
+            MainSignOutButton.Location = new Point(0, 391);
+            MainSignOutButton.Margin = new Padding(3, 2, 3, 2);
             MainSignOutButton.Name = "MainSignOutButton";
-            MainSignOutButton.Size = new Size(167, 32);
+            MainSignOutButton.Size = new Size(146, 24);
             MainSignOutButton.TabIndex = 4;
             MainSignOutButton.Text = "Sign out";
             MainSignOutButton.UseVisualStyleBackColor = false;
@@ -82,9 +84,10 @@ namespace firstScreen
             button2.BackgroundImageLayout = ImageLayout.Center;
             button2.FlatStyle = FlatStyle.Popup;
             button2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(-72, 79);
+            button2.Location = new Point(-63, 59);
+            button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";
-            button2.Size = new Size(238, 30);
+            button2.Size = new Size(208, 22);
             button2.TabIndex = 3;
             button2.Text = "Favorites";
             button2.UseVisualStyleBackColor = false;
@@ -94,9 +97,9 @@ namespace firstScreen
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(36, 12);
+            label1.Location = new Point(32, 9);
             label1.Name = "label1";
-            label1.Size = new Size(55, 23);
+            label1.Size = new Size(45, 19);
             label1.TabIndex = 2;
             label1.Text = "Menu";
             // 
@@ -106,9 +109,10 @@ namespace firstScreen
             button1.BackgroundImageLayout = ImageLayout.Center;
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(-90, 51);
+            button1.Location = new Point(-79, 38);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(256, 32);
+            button1.Size = new Size(224, 24);
             button1.TabIndex = 0;
             button1.Text = "Profile";
             button1.UseVisualStyleBackColor = false;
@@ -119,9 +123,9 @@ namespace firstScreen
             label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(300, 5);
+            label2.Location = new Point(262, 4);
             label2.Name = "label2";
-            label2.Size = new Size(161, 41);
+            label2.Size = new Size(129, 32);
             label2.TabIndex = 1;
             label2.Text = "GoTürkiye";
             // 
@@ -130,9 +134,10 @@ namespace firstScreen
             CityComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CityComboBox.FormattingEnabled = true;
             CityComboBox.Items.AddRange(new object[] { "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın", "Balıkesir", "Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kırıkkale", "Kırklareli", "Kırşehir", "Kilis", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Şanlıurfa", "Şırnak", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak" });
-            CityComboBox.Location = new Point(631, 14);
+            CityComboBox.Location = new Point(552, 10);
+            CityComboBox.Margin = new Padding(3, 2, 3, 2);
             CityComboBox.Name = "CityComboBox";
-            CityComboBox.Size = new Size(151, 28);
+            CityComboBox.Size = new Size(133, 23);
             CityComboBox.TabIndex = 2;
             CityComboBox.Text = "Please select a city";
             CityComboBox.SelectedIndexChanged += CityComboBox_SelectedIndexChanged;
@@ -141,7 +146,8 @@ namespace firstScreen
             // 
             AnkarapictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             AnkarapictureBox.Image = Resources.ankara;
-            AnkarapictureBox.Location = new Point(483, 53);
+            AnkarapictureBox.Location = new Point(423, 40);
+            AnkarapictureBox.Margin = new Padding(3, 2, 3, 2);
             AnkarapictureBox.Name = "AnkarapictureBox";
             AnkarapictureBox.Size = new Size(299, 168);
             AnkarapictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -152,9 +158,10 @@ namespace firstScreen
             // 
             İstanbulpictureBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             İstanbulpictureBox.Image = Resources.istanbul;
-            İstanbulpictureBox.Location = new Point(169, 221);
+            İstanbulpictureBox.Location = new Point(148, 166);
+            İstanbulpictureBox.Margin = new Padding(3, 2, 3, 2);
             İstanbulpictureBox.Name = "İstanbulpictureBox";
-            İstanbulpictureBox.Size = new Size(307, 161);
+            İstanbulpictureBox.Size = new Size(269, 121);
             İstanbulpictureBox.TabIndex = 4;
             İstanbulpictureBox.TabStop = false;
             // 
@@ -162,7 +169,8 @@ namespace firstScreen
             // 
             İzmirpictureBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             İzmirpictureBox.Image = Resources.izmir;
-            İzmirpictureBox.Location = new Point(472, 391);
+            İzmirpictureBox.Location = new Point(413, 293);
+            İzmirpictureBox.Margin = new Padding(3, 2, 3, 2);
             İzmirpictureBox.Name = "İzmirpictureBox";
             İzmirpictureBox.Size = new Size(310, 162);
             İzmirpictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -171,10 +179,10 @@ namespace firstScreen
             // 
             // mainPage
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.PowderBlue;
-            ClientSize = new Size(782, 553);
+            ClientSize = new Size(684, 415);
             Controls.Add(İzmirpictureBox);
             Controls.Add(İstanbulpictureBox);
             Controls.Add(AnkarapictureBox);
@@ -182,10 +190,12 @@ namespace firstScreen
             Controls.Add(label2);
             Controls.Add(mainPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "mainPage";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GoTürkiye";
             FormClosed += mainPage_FormClosed;
+            Load += mainPage_Load;
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)AnkarapictureBox).EndInit();

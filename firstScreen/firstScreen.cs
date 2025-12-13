@@ -11,7 +11,7 @@ namespace firstScreen
         {
             LoginForm loginForm = new LoginForm();
             this.Hide();
-           DialogResult result= loginForm.ShowDialog();
+            DialogResult result = loginForm.ShowDialog();
             if (result == DialogResult.OK)
             {
                 this.Show();
@@ -31,6 +31,11 @@ namespace firstScreen
             {
                 this.Show();
             }
+        }
+
+        private void firstScreen_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

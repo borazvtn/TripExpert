@@ -52,7 +52,6 @@
             FavoriteToMain.TabIndex = 10;
             FavoriteToMain.Text = "Main Page";
             FavoriteToMain.UseVisualStyleBackColor = true;
-            FavoriteToMain.Click += FavoriteToMain_Click;
             // 
             // panelMekanlar
             // 
@@ -75,6 +74,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "FavoritesForm";
             Text = "GoTürkiye";
+            Load += FavoritesForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

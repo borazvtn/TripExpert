@@ -38,9 +38,9 @@
             // 
             headerLabel.AutoSize = true;
             headerLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            headerLabel.Location = new Point(300, 5);
+            headerLabel.Location = new Point(262, 4);
             headerLabel.Name = "headerLabel";
-            headerLabel.Size = new Size(161, 41);
+            headerLabel.Size = new Size(129, 32);
             headerLabel.TabIndex = 0;
             headerLabel.Text = "GoTürkiye";
             // 
@@ -48,18 +48,19 @@
             // 
             firstmessageLabel.AutoSize = true;
             firstmessageLabel.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            firstmessageLabel.Location = new Point(22, 73);
+            firstmessageLabel.Location = new Point(19, 55);
             firstmessageLabel.Name = "firstmessageLabel";
-            firstmessageLabel.Size = new Size(740, 38);
+            firstmessageLabel.Size = new Size(582, 30);
             firstmessageLabel.TabIndex = 1;
             firstmessageLabel.Text = "If you have an account please log in else please sign up";
             // 
             // firstsignButton
             // 
             firstsignButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            firstsignButton.Location = new Point(300, 349);
+            firstsignButton.Location = new Point(262, 262);
+            firstsignButton.Margin = new Padding(3, 2, 3, 2);
             firstsignButton.Name = "firstsignButton";
-            firstsignButton.Size = new Size(131, 54);
+            firstsignButton.Size = new Size(115, 40);
             firstsignButton.TabIndex = 2;
             firstsignButton.Text = "Sign up";
             firstsignButton.UseVisualStyleBackColor = true;
@@ -68,9 +69,10 @@
             // firstlogButton
             // 
             firstlogButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            firstlogButton.Location = new Point(300, 222);
+            firstlogButton.Location = new Point(262, 166);
+            firstlogButton.Margin = new Padding(3, 2, 3, 2);
             firstlogButton.Name = "firstlogButton";
-            firstlogButton.Size = new Size(131, 54);
+            firstlogButton.Size = new Size(115, 40);
             firstlogButton.TabIndex = 3;
             firstlogButton.Text = "Log in";
             firstlogButton.UseVisualStyleBackColor = true;
@@ -78,18 +80,20 @@
             // 
             // firstScreen
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackColor = Color.PaleTurquoise;
-            ClientSize = new Size(782, 553);
+            ClientSize = new Size(684, 415);
             Controls.Add(firstlogButton);
             Controls.Add(firstsignButton);
             Controls.Add(firstmessageLabel);
             Controls.Add(headerLabel);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "firstScreen";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GoTürkiye";
+            Load += firstScreen_Load;
             ResumeLayout(false);
             PerformLayout();
         }

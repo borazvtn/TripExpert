@@ -1,3 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 namespace firstScreen
 {
     public partial class LoginForm : Form
@@ -9,33 +19,34 @@ namespace firstScreen
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            mainPage anaekran =new mainPage();
+            // ESKÝ HATALI SATIR SÝLÝNDÝ
+            // Kullanýcý giriþi kontrol ediliyor...
+
             string girilenNick = logUsernameTextbox.Text.Trim();
             string girilenSifre = logpassTextbox.Text.Trim();
 
-            
             if (string.IsNullOrEmpty(girilenNick) || string.IsNullOrEmpty(girilenSifre))
             {
                 MessageBox.Show("Please enter valid username and password.", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            
+            // Giriþ iþlemini dene
             User girisYapanKullanici = UserManager.Login(girilenNick, girilenSifre);
 
-           
             if (girisYapanKullanici != null)
             {
-                
-
                 MessageBox.Show($"Welcome, {girisYapanKullanici.Name}!", "Logged in succesfully.", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                
-                mainPage anaForm = new mainPage();
-                anaForm.Show();
-                
+                // --- ÝÞTE SÝHÝRLÝ DOKUNUÞ ---
+                // Kullanýcýyý (girisYapanKullanici) ana sayfaya paketleyip gönderiyoruz.
+                mainPage anaForm = new mainPage(girisYapanKullanici);
+
                 this.Hide();
-                DialogResult sonuc = anaekran.ShowDialog();
+
+                // Ana ekraný açýyoruz
+                DialogResult sonuc = anaForm.ShowDialog();
+
                 if (sonuc == DialogResult.OK)
                 {
                     this.DialogResult = DialogResult.OK;
@@ -48,7 +59,6 @@ namespace firstScreen
             }
             else
             {
-               
                 MessageBox.Show("Wrong username or password!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -56,30 +66,37 @@ namespace firstScreen
         private void logSignButton_Click(object sender, EventArgs e)
         {
             signupForm sign = new signupForm();
+            this.Hide(); // Kayýt olurken giriþi gizle
             DialogResult result = sign.ShowDialog();
+
             if (result == DialogResult.OK)
             {
-                this.DialogResult=DialogResult.OK;
-                this.Close();
+                this.Show(); // Kayýt bittiyse tekrar göster
             }
             else
             {
-                Application.Exit();
+                // Eðer çarpýdan kapattýysa uygulamayý kapatma, sadece formu göster
+                this.Show();
             }
         }
 
         private void LogtoSignLabel_Click(object sender, EventArgs e)
         {
             signupForm sign = new signupForm();
-            DialogResult result=sign.ShowDialog();
-            if(result == DialogResult.OK)
+            this.Hide();
+            DialogResult result = sign.ShowDialog();
+
+            if (result == DialogResult.OK)
             {
-                this.Show(); 
+                this.Show();
             }
             else
             {
-                Application.Exit();
+                this.Show();
             }
         }
+
+        // SORUNLU LoginForm_Load METODU BURADAN SÝLÝNDÝ!
+        // Artýk "Zaten bir taným içeriyor" hatasý vermeyecek.
     }
 }

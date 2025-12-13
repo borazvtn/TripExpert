@@ -31,48 +31,47 @@ namespace firstScreen
 
             if (existingRating != null)
             {
-                // -- GÜNCELLEME SENARYOSU --
-                // 1. Mekan nesnesinin puanını güncelle (önce eskisini çıkar, yeniyi ekle)
                 mekan.TotalScore -= existingRating.Score;
                 mekan.TotalScore += score;
-
-                // 2. Kullanıcının RAM'deki listesini güncelle
                 existingRating.Score = score;
                 existingRating.Comment = comment;
             }
             else
             {
-                // -- YENİ EKLEME SENARYOSU --
-                // 1. Mekan nesnesine puan ekle
                 mekan.AddPoint(score);
-                
-                // 2. Kullanıcının RAM'deki listesine ekle
                 var newRating = new UserRatings(mekan, score, comment);
                 MyRatings.Add(newRating);
             }
 
-            // 3. VERİTABANI GÜNCELLEMELERİ
-            // UserRatings tablosuna yaz (INSERT OR REPLACE kullandığımız için tek metod yeterli)
             DataManagement.InsertUserRating(this.Nickname, mekan.Id, score, comment);
-
-            // Mekanlar tablosunda ortalamayı güncelle
             DataManagement.UpdateMekanRating(mekan);
         }
 
+        // --- GÜNCELLENEN METOT BURASI ---
         public bool ToggleFavorite(Mekan mekan)
         {
             Mekan foundMekan = Favorites.Find(m => m.Id == mekan.Id);
 
             if (foundMekan != null)
             {
+                // Listeden çıkar
                 Favorites.Remove(foundMekan);
                 mekan.ChangeFavorite(false);
+
+                // VERİTABANINDAN SİL [YENİ]
+                DataManagement.FavoriSil(this.Nickname, mekan.Id);
+
                 return false;
             }
             else
             {
+                // Listeye ekle
                 Favorites.Add(mekan);
                 mekan.ChangeFavorite(true);
+
+                // VERİTABANINA EKLE [YENİ]
+                DataManagement.FavoriEkle(this.Nickname, mekan.Id);
+
                 return true;
             }
         }

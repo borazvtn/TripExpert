@@ -2,69 +2,65 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace firstScreen
 {
     public partial class FavoritesForm : Form
     {
-        public FavoritesForm()
+        // Favorilerine bakacağımız kullanıcı
+        private User currentUser;
+
+        // DİKKAT: Artık parantez içinde (User user) istiyoruz!
+        public FavoritesForm(User user)
         {
             InitializeComponent();
-        }
+            currentUser = user; // Kullanıcıyı teslim al
+            this.Text = "Favorilerim";
 
-        private void FavoritesForm_Load(object sender, EventArgs e)
-        {
             FavorileriListele();
         }
 
         private void FavorileriListele()
         {
-            // 1. Tepsiyi temizle
+            // Panel adını senin söylediğin gibi 'panelMekanlar' yaptım
             panelMekanlar.Controls.Clear();
 
-            // 2. Giriş kontrolü
-            if (UserManager.CurrentUser == null)
+            // 1. Veritabanından en güncel favorileri çek
+            if (currentUser != null)
             {
-                MessageBox.Show("Favorileri görmek için giriş yapmalısınız.");
-                this.Close();
+                DataManagement.FavorileriGetir(currentUser);
+            }
+
+            // 2. Eğer favori yoksa uyarı ver
+            if (currentUser == null || currentUser.Favorites.Count == 0)
+            {
+                Label bosMesaj = new Label();
+                bosMesaj.Text = "Henüz favorilere eklediğiniz bir mekan yok.\nKalp ikonuna tıklayarak ekleyebilirsiniz.";
+                bosMesaj.AutoSize = true;
+                bosMesaj.Font = new Font("Segoe UI", 12, FontStyle.Italic);
+                bosMesaj.ForeColor = Color.Gray;
+                bosMesaj.Location = new Point(20, 20);
+
+                panelMekanlar.Controls.Add(bosMesaj);
                 return;
             }
 
-            // 3. Favorileri al
-            // (Eğer User.cs dosyanızda listenin adı MyFavorites ise burayı .MyFavorites yapın)
-            List<Mekan> favoriListesi = UserManager.CurrentUser.Favorites;
-
-            // 4. Favori yoksa uyar
-            if (favoriListesi == null || favoriListesi.Count == 0)
-            {
-                Label lblUyari = new Label();
-                lblUyari.Text = "Henüz favori mekanınız yok.";
-                lblUyari.AutoSize = true;
-                lblUyari.Font = new Font("Arial", 12, FontStyle.Bold);
-                lblUyari.Margin = new Padding(50);
-                panelMekanlar.Controls.Add(lblUyari);
-                return;
-            }
-
-            // 5. Kartları Bas (GÜNCELLENEN KISIM - YeniKart Sistemi)
-            foreach (Mekan mekan in favoriListesi)
+            // 3. Kartları Oluştur ve Ekle
+            foreach (Mekan mekan in currentUser.Favorites)
             {
                 YeniKart kart = new YeniKart();
-
-                // --- ESKİ KODLAR SİLİNDİ (Baslik, Puan vs. yok artık) ---
-
-                // --- YENİ SİSTEM: Tek satırda her şeyi yükle ---
                 kart.BilgileriYukle(mekan);
+                kart.Margin = new Padding(15);
 
-                kart.Margin = new Padding(10);
+                // Panele ekle
                 panelMekanlar.Controls.Add(kart);
             }
         }
 
-        private void FavoriteToMain_Click(object sender, EventArgs e)
+        private void FavoritesForm_Load(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+
         }
     }
 }

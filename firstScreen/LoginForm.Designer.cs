@@ -46,9 +46,9 @@ namespace firstScreen
             // 
             headerLabel.AutoSize = true;
             headerLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            headerLabel.Location = new Point(300, 5);
+            headerLabel.Location = new Point(262, 4);
             headerLabel.Name = "headerLabel";
-            headerLabel.Size = new Size(161, 41);
+            headerLabel.Size = new Size(129, 32);
             headerLabel.TabIndex = 0;
             headerLabel.Text = "GoTürkiye";
             // 
@@ -56,9 +56,9 @@ namespace firstScreen
             // 
             logmessageLabel.AutoSize = true;
             logmessageLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logmessageLabel.Location = new Point(12, 91);
+            logmessageLabel.Location = new Point(10, 68);
             logmessageLabel.Name = "logmessageLabel";
-            logmessageLabel.Size = new Size(195, 41);
+            logmessageLabel.Size = new Size(159, 32);
             logmessageLabel.TabIndex = 1;
             logmessageLabel.Text = "Please log in";
             // 
@@ -72,9 +72,10 @@ namespace firstScreen
             loginPanel.Controls.Add(logpassLabel);
             loginPanel.Controls.Add(logUsernameLabel);
             loginPanel.Controls.Add(logUsernameTextbox);
-            loginPanel.Location = new Point(202, 146);
+            loginPanel.Location = new Point(177, 110);
+            loginPanel.Margin = new Padding(3, 2, 3, 2);
             loginPanel.Name = "loginPanel";
-            loginPanel.Size = new Size(386, 384);
+            loginPanel.Size = new Size(338, 289);
             loginPanel.TabIndex = 2;
             // 
             // LogtoSignLabel
@@ -82,9 +83,9 @@ namespace firstScreen
             LogtoSignLabel.AutoSize = true;
             LogtoSignLabel.Font = new Font("Microsoft YaHei UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             LogtoSignLabel.ForeColor = Color.Crimson;
-            LogtoSignLabel.Location = new Point(193, 313);
+            LogtoSignLabel.Location = new Point(169, 235);
             LogtoSignLabel.Name = "LogtoSignLabel";
-            LogtoSignLabel.Size = new Size(164, 24);
+            LogtoSignLabel.Size = new Size(134, 19);
             LogtoSignLabel.TabIndex = 8;
             LogtoSignLabel.Text = "Create an account";
             LogtoSignLabel.Click += LogtoSignLabel_Click;
@@ -93,19 +94,20 @@ namespace firstScreen
             // 
             logSignLabel.AutoSize = true;
             logSignLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logSignLabel.Location = new Point(3, 309);
+            logSignLabel.Location = new Point(3, 232);
             logSignLabel.Name = "logSignLabel";
-            logSignLabel.Size = new Size(193, 28);
+            logSignLabel.Size = new Size(153, 21);
             logSignLabel.TabIndex = 7;
             logSignLabel.Text = "New to TripExpert?";
             // 
             // loginButton
             // 
             loginButton.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            loginButton.Location = new Point(96, 265);
+            loginButton.Location = new Point(84, 199);
+            loginButton.Margin = new Padding(3, 2, 3, 2);
             loginButton.Name = "loginButton";
             loginButton.RightToLeft = RightToLeft.No;
-            loginButton.Size = new Size(122, 37);
+            loginButton.Size = new Size(107, 28);
             loginButton.TabIndex = 5;
             loginButton.Text = "Log in";
             loginButton.UseVisualStyleBackColor = true;
@@ -114,20 +116,21 @@ namespace firstScreen
             // logpassTextbox
             // 
             logpassTextbox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            logpassTextbox.Location = new Point(96, 203);
+            logpassTextbox.Location = new Point(84, 152);
+            logpassTextbox.Margin = new Padding(3, 2, 3, 2);
             logpassTextbox.Multiline = true;
             logpassTextbox.Name = "logpassTextbox";
             logpassTextbox.PasswordChar = '*';
-            logpassTextbox.Size = new Size(226, 34);
+            logpassTextbox.Size = new Size(198, 26);
             logpassTextbox.TabIndex = 4;
             // 
             // logpassLabel
             // 
             logpassLabel.AutoSize = true;
             logpassLabel.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logpassLabel.Location = new Point(96, 162);
+            logpassLabel.Location = new Point(84, 122);
             logpassLabel.Name = "logpassLabel";
-            logpassLabel.Size = new Size(136, 38);
+            logpassLabel.Size = new Size(105, 30);
             logpassLabel.TabIndex = 3;
             logpassLabel.Text = "Password";
             // 
@@ -135,32 +138,35 @@ namespace firstScreen
             // 
             logUsernameLabel.AutoSize = true;
             logUsernameLabel.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logUsernameLabel.Location = new Point(96, 55);
+            logUsernameLabel.Location = new Point(84, 41);
             logUsernameLabel.Name = "logUsernameLabel";
-            logUsernameLabel.Size = new Size(145, 38);
+            logUsernameLabel.Size = new Size(112, 30);
             logUsernameLabel.TabIndex = 2;
             logUsernameLabel.Text = "Username";
             // 
             // logUsernameTextbox
             // 
-            logUsernameTextbox.Location = new Point(96, 96);
+            logUsernameTextbox.Location = new Point(84, 72);
+            logUsernameTextbox.Margin = new Padding(3, 2, 3, 2);
             logUsernameTextbox.Multiline = true;
             logUsernameTextbox.Name = "logUsernameTextbox";
-            logUsernameTextbox.Size = new Size(226, 34);
+            logUsernameTextbox.Size = new Size(198, 26);
             logUsernameTextbox.TabIndex = 0;
             // 
             // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.PaleTurquoise;
-            ClientSize = new Size(782, 553);
+            ClientSize = new Size(684, 415);
             Controls.Add(loginPanel);
             Controls.Add(logmessageLabel);
             Controls.Add(headerLabel);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GoTürkiye";
+            Load += LoginForm_Load;
             loginPanel.ResumeLayout(false);
             loginPanel.PerformLayout();
             ResumeLayout(false);
