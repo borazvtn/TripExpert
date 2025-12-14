@@ -53,7 +53,6 @@ namespace firstScreen
             }
         }
 
-        // --- OLAY 1: BUTON TIKLAMASI (Favorile) ---
         private void btnFav_Click(object sender, EventArgs e)
         {
             if (UserManager.CurrentUser == null)
@@ -66,7 +65,6 @@ namespace firstScreen
             FavoriRenginiGuncelle();
         }
 
-        // --- OLAY 2: RESİM TIKLAMASI (Açıklama Göster) ---
         private void pbResim_Click(object sender, EventArgs e)
         {
             if (MevcutMekan != null && !string.IsNullOrEmpty(MevcutMekan.Description))
@@ -77,6 +75,11 @@ namespace firstScreen
             {
                 MessageBox.Show("Bu mekan için açıklama girilmemiş.");
             }
+        }
+
+        private void YeniKart_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

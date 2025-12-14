@@ -47,7 +47,7 @@
             // lblPuan
             // 
             lblPuan.AutoSize = true;
-            lblPuan.Location = new Point(264, 82);
+            lblPuan.Location = new Point(264, 127);
             lblPuan.Name = "lblPuan";
             lblPuan.Size = new Size(38, 15);
             lblPuan.TabIndex = 1;
@@ -55,9 +55,10 @@
             // 
             // pbResim
             // 
-            pbResim.Location = new Point(55, 67);
+            pbResim.Location = new Point(22, 67);
             pbResim.Name = "pbResim";
-            pbResim.Size = new Size(100, 50);
+            pbResim.Size = new Size(182, 140);
+            pbResim.SizeMode = PictureBoxSizeMode.StretchImage;
             pbResim.TabIndex = 2;
             pbResim.TabStop = false;
             pbResim.Click += pbResim_Click;
@@ -82,6 +83,7 @@
             Controls.Add(lblAd);
             Name = "YeniKart";
             Size = new Size(531, 331);
+            Load += YeniKart_Load;
             ((System.ComponentModel.ISupportInitialize)pbResim).EndInit();
             ResumeLayout(false);
             PerformLayout();
