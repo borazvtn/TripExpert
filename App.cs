@@ -5,11 +5,7 @@ class UserActionRepository
 {
     private const string ConnectionString = "Data Source=/Users/bugragunay/Desktop/gezilecek_yerler.db";
 
-    /// <summary>
-    /// Uygulamadaki her harekette çağır:
-    /// Aynı kullanıcı adı + şifre ile, hangi mekana kaç puan verdi ve favori mi
-    /// bunları yeni satır olarak ekler.
-    /// </summary>
+
     public static void InsertUserAction(
         string username,
         string password,
@@ -122,7 +118,6 @@ class Program
     {
         Console.WriteLine("=== Kullanıcı Mekan Puanlama Sistemi ===");
 
-        // Sadece veritabanlarını ve tabloları oluşturup çıkıyoruz.
         UserDatabaseInitializer.InitializeUserDatabase();
         MekanlarDatabaseInitializer.InitializeMekanlarTables();
 
