@@ -19,8 +19,7 @@ namespace firstScreen
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            // ESKÝ HATALI SATIR SÝLÝNDÝ
-            // Kullanýcý giriþi kontrol ediliyor...
+            
 
             string girilenNick = logUsernameTextbox.Text.Trim();
             string girilenSifre = logpassTextbox.Text.Trim();
@@ -31,20 +30,19 @@ namespace firstScreen
                 return;
             }
 
-            // Giriþ iþlemini dene
+           
             User girisYapanKullanici = UserManager.Login(girilenNick, girilenSifre);
 
             if (girisYapanKullanici != null)
             {
                 MessageBox.Show($"Welcome, {girisYapanKullanici.Name}!", "Logged in succesfully.", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // --- ÝÞTE SÝHÝRLÝ DOKUNUÞ ---
-                // Kullanýcýyý (girisYapanKullanici) ana sayfaya paketleyip gönderiyoruz.
+                
                 mainPage anaForm = new mainPage(girisYapanKullanici);
 
                 this.Hide();
 
-                // Ana ekraný açýyoruz
+               
                 DialogResult sonuc = anaForm.ShowDialog();
 
                 if (sonuc == DialogResult.OK)

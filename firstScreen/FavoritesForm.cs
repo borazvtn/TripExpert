@@ -62,5 +62,22 @@ namespace firstScreen
         {
 
         }
+
+        private void FavoriteToMain_Click(object sender, EventArgs e)
+        {
+            mainPage main = new mainPage(currentUser);
+            this.Hide();
+            DialogResult sonuc = main.ShowDialog();
+            if (sonuc == DialogResult.OK)
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else
+            {
+                Application.Exit();
+            }
+        }
     }
+    
 }

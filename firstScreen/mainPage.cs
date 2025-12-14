@@ -40,7 +40,7 @@ namespace firstScreen
         // PROFÝL BUTONU
         private void button1_Click(object sender, EventArgs e)
         {
-            ProfileForm profil = new ProfileForm();
+            ProfileForm profil = new ProfileForm(activeUser);
             this.Hide();
             profil.ShowDialog();
             this.Show();

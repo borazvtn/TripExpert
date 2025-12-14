@@ -10,19 +10,51 @@ namespace firstScreen
             InitializeComponent();
         }
 
-        // Kayýt Ol Butonu
+       
         private void signupButton_Click(object sender, EventArgs e)
         {
-            // Veritabaný kayýt kodlarýn buradaysa kalsýn (veya UserManager kullanýyorsan o kalsýn)
-            // Bizim düzelttiðimiz yer sayfa geçiþi:
 
-            MessageBox.Show("Registration Successful! Please Login.");
+            User newuser = new User()
+            {
+                Name = signnametextBox.Text,
+                Password = signpasstextBox.Text,
+                Nickname = signUsernametextBox.Text,
+                UserStatus = "Standart"
+            };
 
-            // HATA ÇIKARAN KISIM SÝLÝNDÝ.
-            // Sadece formu kapatýyoruz.
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            LoginForm loginform = new LoginForm();
+            string result = UserManager.Register(newuser);
+            if (result == "Registered succesfully")
+            {
+                MessageBox.Show("Registration Successful! Please Login.");
+
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+
+
+                DialogResult sonuc = loginform.ShowDialog();
+                if (sonuc == DialogResult.OK)
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+
+            }
+            else
+            {
+                MessageBox.Show(result, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+
         }
+    
+
+   
 
         private void label1_Click(object sender, EventArgs e)
         {

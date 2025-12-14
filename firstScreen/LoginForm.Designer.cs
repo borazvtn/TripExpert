@@ -166,7 +166,7 @@ namespace firstScreen
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GoTürkiye";
-            Load += LoginForm_Load;
+            
             loginPanel.ResumeLayout(false);
             loginPanel.PerformLayout();
             ResumeLayout(false);

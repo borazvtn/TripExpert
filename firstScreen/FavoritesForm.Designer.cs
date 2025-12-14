@@ -37,42 +37,43 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(262, 4);
+            label1.Location = new Point(299, 5);
             label1.Name = "label1";
-            label1.Size = new Size(129, 32);
+            label1.Size = new Size(161, 41);
             label1.TabIndex = 0;
             label1.Text = "GoTürkiye";
             // 
             // FavoriteToMain
             // 
-            FavoriteToMain.Location = new Point(10, 9);
-            FavoriteToMain.Margin = new Padding(3, 2, 3, 2);
+            FavoriteToMain.Location = new Point(11, 12);
             FavoriteToMain.Name = "FavoriteToMain";
-            FavoriteToMain.Size = new Size(94, 31);
+            FavoriteToMain.Size = new Size(107, 41);
             FavoriteToMain.TabIndex = 10;
             FavoriteToMain.Text = "Main Page";
             FavoriteToMain.UseVisualStyleBackColor = true;
+            FavoriteToMain.Click += FavoriteToMain_Click;
             // 
             // panelMekanlar
             // 
             panelMekanlar.AutoScroll = true;
-            panelMekanlar.Location = new Point(12, 57);
+            panelMekanlar.Location = new Point(14, 76);
+            panelMekanlar.Margin = new Padding(3, 4, 3, 4);
             panelMekanlar.Name = "panelMekanlar";
-            panelMekanlar.Size = new Size(660, 346);
+            panelMekanlar.Size = new Size(754, 461);
             panelMekanlar.TabIndex = 12;
             // 
             // FavoritesForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.PowderBlue;
-            ClientSize = new Size(684, 415);
+            ClientSize = new Size(782, 553);
             Controls.Add(panelMekanlar);
             Controls.Add(FavoriteToMain);
             Controls.Add(label1);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "FavoritesForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "GoTürkiye";
             Load += FavoritesForm_Load;
             ResumeLayout(false);

@@ -5,28 +5,50 @@ namespace firstScreen
 {
     public partial class ProfileForm : Form
     {
-        public ProfileForm()
+        User currentUser;
+
+        public ProfileForm(User user)
         {
             InitializeComponent();
+            currentUser = user;
+
+            if (currentUser != null)
+            {
+                ProfileNameLabel.Text = currentUser.Name;
+                ProfileUserNameLabel.Text = currentUser.Nickname;
+            }
         }
 
-        // Geri Dön Butonu (Veya iþlem butonu)
-        // Tasarýmcýda bu butona çift týkladýysan bu metodun içi boþ gelir, bunu yapýþtýr.
         private void ProfileToMain_Click(object sender, EventArgs e)
         {
-            // ESKÝ HATA: mainpage m = new mainpage(); (Yanlýþ yazým ve gereksiz)
-            // ÇÖZÜM: Formu kapat, arkadaki ana sayfa zaten açýk.
-            this.Close();
+            mainPage main = new mainPage(currentUser);
+            this.Hide();
+
+            DialogResult result = main.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
 
         private void ProfileSignOutButton_Click(object sender, EventArgs e)
         {
-            // Çýkýþ yapýnca tamamen kapatýp login'e dönmek istersen:
             Application.Restart();
         }
 
         private void ProfileForm_Load(object sender, EventArgs e)
         {
+        }
+
+        private void ProfileForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

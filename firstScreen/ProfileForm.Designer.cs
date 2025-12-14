@@ -77,9 +77,9 @@ namespace firstScreen
             // pictureBox1
             // 
             pictureBox1.Image = Resources.UserIcon;
-            pictureBox1.Location = new Point(39, 3);
+            pictureBox1.Location = new Point(303, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(50, 51);
+            pictureBox1.Size = new Size(127, 121);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 7;
             pictureBox1.TabStop = false;
@@ -94,11 +94,11 @@ namespace firstScreen
             // ProfileNameLabel
             // 
             ProfileNameLabel.AutoSize = true;
-            ProfileNameLabel.Location = new Point(15, 96);
+            ProfileNameLabel.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 162);
+            ProfileNameLabel.Location = new Point(319, 175);
             ProfileNameLabel.Name = "ProfileNameLabel";
-            ProfileNameLabel.Size = new Size(40, 20);
+            ProfileNameLabel.Size = new Size(0, 31);
             ProfileNameLabel.TabIndex = 5;
-            ProfileNameLabel.Text = "bora";
             // 
             // ProfileSignOutButton
             // 
@@ -116,12 +116,11 @@ namespace firstScreen
             // ProfileUserNameLabel
             // 
             ProfileUserNameLabel.AutoSize = true;
-            ProfileUserNameLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            ProfileUserNameLabel.Location = new Point(15, 57);
+            ProfileUserNameLabel.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            ProfileUserNameLabel.Location = new Point(304, 127);
             ProfileUserNameLabel.Name = "ProfileUserNameLabel";
-            ProfileUserNameLabel.Size = new Size(108, 28);
+            ProfileUserNameLabel.Size = new Size(0, 38);
             ProfileUserNameLabel.TabIndex = 3;
-            ProfileUserNameLabel.Text = "asdasdasd";
             // 
             // ProfileForm
             // 
@@ -135,6 +134,7 @@ namespace firstScreen
             Name = "ProfileForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GoTürkiye";
+            FormClosing += ProfileForm_FormClosing;
             ProfilePanel.ResumeLayout(false);
             ProfilePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
