@@ -84,11 +84,11 @@ namespace firstScreen
                 string sqlUsers = @"CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Nickname TEXT UNIQUE, Password TEXT, UserStatus TEXT);";
                 new SQLiteCommand(sqlUsers, conn).ExecuteNonQuery();
 
-                // 2. Puanlama Tablosu
+                // 2. Puanlama Tablosu (Buradaki Comment sütunu kod içinde Favori olarak kullanılacak)
                 string sqlRatings = @"CREATE TABLE IF NOT EXISTS UserRatings (ID INTEGER PRIMARY KEY AUTOINCREMENT, UserNickname TEXT NOT NULL, MekanId INTEGER NOT NULL, Score INTEGER NOT NULL, Comment TEXT, UNIQUE(UserNickname, MekanId));";
                 new SQLiteCommand(sqlRatings, conn).ExecuteNonQuery();
 
-                // 3. Favoriler Tablosu
+                // 3. Favoriler Tablosu (Sadece favoriye alma işlemi için)
                 string sqlFavs = @"CREATE TABLE IF NOT EXISTS UserFavorites (UserNickname TEXT NOT NULL, MekanId INTEGER NOT NULL, PRIMARY KEY(UserNickname, MekanId));";
                 new SQLiteCommand(sqlFavs, conn).ExecuteNonQuery();
             }
@@ -123,19 +123,21 @@ namespace firstScreen
             catch (Exception ex) { return "Database error! " + ex.Message; }
         }
 
-        // --- PUANLAMA METOTLARI (Eksik olan buydu) ---
-        public static void InsertUserRating(string userNick, int mekanId, int score, string comment)
+        // --- PUANLAMA VE FAVORİ NOTU METOTLARI ---
+        // REVİZE EDİLDİ: 'Comment' yerine 'favoriMetni' parametresi kullanılıyor.
+        public static void InsertUserRating(string userNick, int mekanId, int score, string favoriMetni)
         {
             using (var conn = new SQLiteConnection(userConnString))
             {
                 conn.Open();
-                string query = "INSERT OR REPLACE INTO UserRatings (UserNickname, MekanId, Score, Comment) VALUES (@u, @m, @s, @c)";
+                // SQL tarafında sütun adı mecburen 'Comment' kalıyor ama biz veriyi 'favoriMetni'nden alıyoruz.
+                string query = "INSERT OR REPLACE INTO UserRatings (UserNickname, MekanId, Score, Comment) VALUES (@u, @m, @s, @fav)";
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@u", userNick);
                     cmd.Parameters.AddWithValue("@m", mekanId);
                     cmd.Parameters.AddWithValue("@s", score);
-                    cmd.Parameters.AddWithValue("@c", comment);
+                    cmd.Parameters.AddWithValue("@fav", favoriMetni); // Burada mapping yapıldı
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -143,16 +145,16 @@ namespace firstScreen
 
         public static void UpdateMekanRating(Mekan mekan)
         {
-            // Veritabanında puan sütunları olmadığı için boş bırakıyoruz, hata vermesin.
+            // Veritabanında mekan puan sütunları olmadığı için boş bırakıyoruz.
         }
 
         public static void LoadUserRatings(User user)
         {
             user.MyRatings.Clear();
-            // Şimdilik boş
+            // İleride burayı doldururken de reader["Comment"] verisini user.FavoriMetni gibi bir alana atayabilirsiniz.
         }
 
-        // --- FAVORİ İŞLEMLERİ ---
+        // --- FAVORİ LİSTESİ İŞLEMLERİ (Tablo: UserFavorites) ---
         public static void FavoriEkle(string nick, int mekanId)
         {
             using (SQLiteConnection conn = new SQLiteConnection(userConnString))
@@ -185,7 +187,6 @@ namespace firstScreen
 
         public static void FavorileriGetir(User user)
         {
-            // İŞTE DÜZELTME BURADA: MyFavorites DEĞİL, Favorites OLACAK
             user.Favorites.Clear();
 
             using (SQLiteConnection conn = new SQLiteConnection(userConnString))
@@ -200,10 +201,10 @@ namespace firstScreen
                         while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
+                            // AllCities içindeki tüm mekanlarda ID araması yap
                             Mekan m = AllCities.SelectMany(c => c.Mekanlar).FirstOrDefault(x => x.Id == id);
                             if (m != null)
                             {
-                                // İŞTE DÜZELTME BURADA DA:
                                 user.Favorites.Add(m);
                             }
                         }
