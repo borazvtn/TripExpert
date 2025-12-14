@@ -17,7 +17,7 @@ namespace SehirProject
 {
     class Program
     {
-        // Türkiye'nin 81 ili (plaka sırasına göre)
+        
         static readonly List<string> Sehirler = new()
         {
             "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya",
@@ -42,28 +42,22 @@ namespace SehirProject
         const string BaseUrl = "https://www.kulturportali.gov.tr";
         const string DbPath = "gezilecek_yerler.db";
 
-        // OpenAI API anahtarını buraya yazacaksın
 private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
 
 
-        // OpenAI istekleri için HttpClient
         private static readonly HttpClient Http = new HttpClient();
 
-        // Resim indirme istekleri için ayrı HttpClient
-        // Timeout sadece burada set edilir; sonradan değiştirmeyeceğiz (yoksa InvalidOperationException atar)
         private static readonly HttpClient HttpImages = new HttpClient
         {
             Timeout = TimeSpan.FromSeconds(60)
         };
 
-        // Aynı anda indirilecek resim sayısını sınırlamak için semaphore (fazla paralellik -> timeout'u azaltmak için)
         private static readonly SemaphoreSlim ImageSemaphore = new SemaphoreSlim(5);
 
         public static async Task Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            // OpenAI için Authorization header'ı bir kere ekle
             if (!Http.DefaultRequestHeaders.Contains("Authorization"))
             {
                 Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {OpenAI_API_KEY}");
@@ -71,21 +65,16 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
 
             Console.WriteLine("=== Şehir Mekan Scraper (C# + SQLite, URL + BLOB) ===");
 
-            // 1) Şehir -> ilId map'ini çıkar
             var ilIdMap = await BuildIlIdMapAsync();
             Console.WriteLine($"[INFO] {ilIdMap.Count} il için ilId bulundu.");
 
-            // 2) Database'i hazırla (dual şema: ImageUrl + ImageBlob)
             PrepareDatabase();
 
-            // 3) Selenium driver oluştur (tek instance)
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArgument("--headless=new");
             chromeOptions.AddArgument("--no-sandbox");
             chromeOptions.AddArgument("--disable-dev-shm-usage");
-            // PageLoadStrategy'yi özellikle ayarlamıyoruz; default kalsın ki sayfa biraz daha sağlıklı yüklensin.
 
-            // ChromeDriver service + daha uzun komut timeout
             var chromeDriverService = ChromeDriverService.CreateDefaultService();
             chromeDriverService.SuppressInitialDiagnosticInformation = true;
 
@@ -111,7 +100,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
 
                 Console.WriteLine($"[INFO] {city} -> {places.Count} mekan bulundu.");
 
-                // 1) Önce tüm mekanlar için description + image işlemlerini paralel yap
                 Console.WriteLine($"[INFO] {city} -> {places.Count} mekan için tanıtım ve resim hazırlanıyor (paralel)...");
                 var processTasks = new List<Task<(PlaceInfo place, string description, string imgUrl, byte[]? imageBytes)>>();
 
@@ -123,7 +111,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
                 var processed = await Task.WhenAll(processTasks);
                 Console.WriteLine($"[INFO] {city} -> {processed.Length} mekan için tanıtım ve resim hazır.");
 
-                // 2) Sonuçları tek tek DB'ye yaz (SQLite tek connection ile seri yazsın)
                 using var conn = new SqliteConnection($"Data Source={DbPath}");
                 await conn.OpenAsync();
 
@@ -162,27 +149,18 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             Console.WriteLine("\n[OK] İşlem tamamlandı. Veriler gezilecek_yerler.db içine yazıldı.");
         }
 
-        // Seçenek: Her mekan için description + image işlemini paralel yapacağız
-        // place    : Mekan bilgisi (adı vs.)
-        // desc     : Tanıtım metni
-        // imgUrl   : Normalize edilmiş (tam) resim URL'si
-        // imageBytes : İndirilen resmin BLOB verisi
         static async Task<(PlaceInfo place, string description, string imgUrl, byte[]? imageBytes)> ProcessPlaceAsync(string city, PlaceInfo place)
         {
-            // Tanıtım metnini OpenAI'den al
             string description = await GenerateDescription(city, place.PlaceName);
 
-            // ImageUrl'yi normalize et
             var normalizedUrl = NormalizeImageUrl(place.ImageUrl);
             place.ImageUrl = normalizedUrl;
 
-            // Resmi indir (normalize edilmiş URL üzerinden)
             var imageBytes = await DownloadImageBytesAsync(normalizedUrl);
 
             return (place, description, normalizedUrl, imageBytes);
         }
 
-        // Basit model
         public class PlaceInfo
         {
             public string CityName { get; set; } = "";
@@ -192,7 +170,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             public byte[]? ImageBlob { get; set; }
         }
 
-        // Şehir ismini slug'a çevir (Python'daki slugify_city ile benzer)
         static string SlugifyCity(string name)
         {
             var map = new Dictionary<char, char>
@@ -225,40 +202,31 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             return sb.ToString();
         }
 
-        // Resim URL'sini normalize eden yardımcı fonksiyon
         static string NormalizeImageUrl(string? imgSrc)
         {
             if (string.IsNullOrWhiteSpace(imgSrc))
                 return "";
 
-            // HTML attribute içindeki &amp; vb. encode'ları çöz
             var s = WebUtility.HtmlDecode(imgSrc).Trim();
 
-            // //cdn... şeklinde başlıyorsa
             if (s.StartsWith("//"))
             {
                 return "https:" + s;
             }
 
-            // /turkiye/... gibi başlıyorsa
             if (s.StartsWith("/"))
             {
                 return BaseUrl + s;
             }
 
-            // http ile başlamıyorsa ve boş değilse, base ile birleştir
             if (!s.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
                 return BaseUrl.TrimEnd('/') + "/" + s.TrimStart('/');
             }
 
-            // Zaten tam URL ise
             return s;
         }
 
-        // 1) ilId map'ini çıkar (HttpClient + HtmlAgilityPack)
-        // Burada gerçek ilId'leri siteden bir kere çekiyoruz.
-        // Şehir isimlerini normalize ederek Sehirler listemizle eşleştiriyoruz.
         static async Task<Dictionary<string, string>> BuildIlIdMapAsync()
         {
             var map = new Dictionary<string, string>();
@@ -282,7 +250,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
                 var doc = new HtmlDocument();
                 doc.LoadHtml(html);
 
-                // Sehirler listemiz için normalize edilmiş isim -> orijinal isim sözlüğü
                 var targetByNorm = new Dictionary<string, string>();
                 foreach (var s in Sehirler)
                 {
@@ -318,7 +285,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
                     }
                 }
 
-                // Eksik iller varsa uyarı verelim ama programı durdurmayalım
                 var missing = new List<string>();
                 foreach (var s in Sehirler)
                 {
@@ -339,7 +305,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             return map;
         }
 
-        // ilId eşlemesi için şehir adını normalize eden yardımcı fonksiyon
         static string NormalizeCityForIlId(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -363,7 +328,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             return name;
         }
 
-        // 2) Selenium + HtmlAgilityPack ile mekanları çek
         static async Task<List<PlaceInfo>> FetchPlacesForCityAsync(
             string cityName,
             int plate,
@@ -374,7 +338,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             var baseUrl = $"{BaseUrl}/turkiye/{slug}/gezilecekyer";
             ilIdMap.TryGetValue(cityName, out var ilId);
 
-            // ilId varsa ilId'li URL, yoksa query'siz baseUrl kullan
             string url;
             if (!string.IsNullOrEmpty(ilId))
             {
@@ -388,15 +351,11 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
 
             var result = new List<PlaceInfo>();
 
-            // HTML'den kartları okuyup result listesine ekleyen local fonksiyon
             void ExtractPlaces(HtmlDocument doc)
             {
-                // 1) article.portfolio-item
                 var cards = doc.DocumentNode.SelectNodes("//article[contains(@class,'portfolio-item')]");
-                // 2) div.portfolio-item
                 if (cards == null)
                     cards = doc.DocumentNode.SelectNodes("//div[contains(@class,'portfolio-item')]");
-                // 3) herhangi bir element .portfolio-item
                 if (cards == null)
                     cards = doc.DocumentNode.SelectNodes("//*[contains(@class,'portfolio-item')]");
 
@@ -408,11 +367,9 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
                 {
                     if (countLocal >= 100) break;
 
-                    // Başlık: önce h3 > a dene, yoksa herhangi bir a etiketi
                     var titleNode = art.SelectSingleNode(".//h3//a") ?? art.SelectSingleNode(".//a");
                     var placeName = titleNode?.InnerText.Trim() ?? "";
 
-                    // Resim: kart içindeki ilk img
                     var imgNode = art.SelectSingleNode(".//img");
                     var imgSrc = imgNode?.GetAttributeValue("src", "")?.Trim() ?? "";
 
@@ -431,7 +388,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
                 }
             }
 
-            // === 1. VE TEK DENEME: Seçilen URL ===
             Console.WriteLine($"[SELENIUM] {cityName} -> {url}");
             try
             {
@@ -442,18 +398,17 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
                 Console.WriteLine($"[WARN] {cityName} için URL'e giderken hata: {wex.Message}");
             }
 
-            // Sayfanın gerçekten kartları yüklemesi için AKTİF bekleme
             var doc = new HtmlDocument();
             string html = driver.PageSource;
             doc.LoadHtml(html);
 
-            int maxWaitMs = 15000;  // toplam 15 saniyeye kadar bekle
-            int stepMs = 1000;      // her seferinde 1 saniye
+            int maxWaitMs = 15000;  
+            int stepMs = 1000;      
             int waited = 0;
 
             while (waited < maxWaitMs)
             {
-                // .portfolio-item var mı diye direkt bak
+                
                 var cardsNode = doc.DocumentNode.SelectNodes("//*[contains(@class,'portfolio-item')]");
                 if (cardsNode != null && cardsNode.Count > 0)
                     break; // kartlar geldi, daha fazla bekleme
@@ -465,7 +420,7 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
                 doc.LoadHtml(html);
             }
 
-            // En son elde ettiğimiz HTML'den kartları çıkar
+           
             ExtractPlaces(doc);
 
             if (result.Count == 0)
@@ -477,7 +432,7 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             return result;
         }
 
-        // 3) SQLite DB hazırlığı (dual: URL + BLOB)
+       
         static void PrepareDatabase()
         {
             using var conn = new SqliteConnection($"Data Source={DbPath}");
@@ -498,7 +453,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             cmd.ExecuteNonQuery();
         }
 
-        // 4) Tanıtım metni (100–120 kelime) – OpenAI Chat API ile üretiliyor
         static async Task<string> GenerateDescription(string city, string place)
         {
             if (string.IsNullOrWhiteSpace(place))
@@ -561,7 +515,6 @@ private static readonly string OpenAI_API_KEY = "OPENAI_API_KEY";
             }
         }
 
-        // 5) Resmi BLOB olarak indiren yardımcı fonksiyon
         static async Task<byte[]?> DownloadImageBytesAsync(string? url)
         {
             if (string.IsNullOrWhiteSpace(url))
