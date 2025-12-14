@@ -37,6 +37,7 @@ namespace firstScreen
             ProfileNameLabel = new Label();
             ProfileSignOutButton = new Button();
             ProfileUserNameLabel = new Label();
+            lbFavorites = new ListBox();
             ProfilePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -64,6 +65,7 @@ namespace firstScreen
             // ProfilePanel
             // 
             ProfilePanel.BackColor = Color.LightCyan;
+            ProfilePanel.Controls.Add(lbFavorites);
             ProfilePanel.Controls.Add(pictureBox1);
             ProfilePanel.Controls.Add(label1);
             ProfilePanel.Controls.Add(ProfileNameLabel);
@@ -122,6 +124,14 @@ namespace firstScreen
             ProfileUserNameLabel.Size = new Size(0, 38);
             ProfileUserNameLabel.TabIndex = 3;
             // 
+            // lbFavorites
+            // 
+            lbFavorites.FormattingEnabled = true;
+            lbFavorites.Location = new Point(3, 168);
+            lbFavorites.Name = "lbFavorites";
+            lbFavorites.Size = new Size(209, 84);
+            lbFavorites.TabIndex = 8;
+            // 
             // ProfileForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -152,5 +162,6 @@ namespace firstScreen
         private Label label1;
         private Label ProfileNameLabel;
         private PictureBox pictureBox1;
+        private ListBox lbFavorites;
     }
 }

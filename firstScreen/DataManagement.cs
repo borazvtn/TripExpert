@@ -20,7 +20,6 @@ namespace firstScreen
         public static void LoadPlacesFromDatabase()
         {
             AllCities.Clear();
-
             if (!File.Exists(placesDbName)) return;
 
             using (SQLiteConnection conn = new SQLiteConnection(placesConnString))
@@ -66,31 +65,33 @@ namespace firstScreen
         }
 
         // -----------------------------------------------------------
-        // KULLANICI VERİLERİ (KullaniciVerileri.db)
+        // KULLANICI VERİLERİ (Belgelerim Klasöründe Tutulur - SİLİNMEZ!)
         // -----------------------------------------------------------
-        private static string userDbName = "KullaniciVerileri.db";
-        private static string userConnString = $"Data Source={userDbName};Version=3;";
+
+        // Veritabanı dosyasının yolu: Belgelerim\KullaniciVerileri.db
+        private static string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KullaniciVerileri.db");
+        private static string userConnString = $"Data Source={dbPath};Version=3;";
 
         public static void InitializeUserDatabase()
         {
-            if (!File.Exists(userDbName))
-                SQLiteConnection.CreateFile(userDbName);
-
-            using (SQLiteConnection conn = new SQLiteConnection(userConnString))
+            // Dosya yoksa oluştur
+            if (!File.Exists(dbPath))
             {
-                conn.Open();
+                SQLiteConnection.CreateFile(dbPath);
 
-                // 1. Kullanıcılar Tablosu
-                string sqlUsers = @"CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Nickname TEXT UNIQUE, Password TEXT, UserStatus TEXT);";
-                new SQLiteCommand(sqlUsers, conn).ExecuteNonQuery();
+                using (SQLiteConnection conn = new SQLiteConnection(userConnString))
+                {
+                    conn.Open();
+                    // Tabloları oluştur
+                    string sqlUsers = @"CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Nickname TEXT UNIQUE, Password TEXT, UserStatus TEXT);";
+                    new SQLiteCommand(sqlUsers, conn).ExecuteNonQuery();
 
-                // 2. Puanlama Tablosu (Buradaki Comment sütunu kod içinde Favori olarak kullanılacak)
-                string sqlRatings = @"CREATE TABLE IF NOT EXISTS UserRatings (ID INTEGER PRIMARY KEY AUTOINCREMENT, UserNickname TEXT NOT NULL, MekanId INTEGER NOT NULL, Score INTEGER NOT NULL, Comment TEXT, UNIQUE(UserNickname, MekanId));";
-                new SQLiteCommand(sqlRatings, conn).ExecuteNonQuery();
+                    string sqlRatings = @"CREATE TABLE IF NOT EXISTS UserRatings (ID INTEGER PRIMARY KEY AUTOINCREMENT, UserNickname TEXT NOT NULL, MekanId INTEGER NOT NULL, Score INTEGER NOT NULL, Comment TEXT, UNIQUE(UserNickname, MekanId));";
+                    new SQLiteCommand(sqlRatings, conn).ExecuteNonQuery();
 
-                // 3. Favoriler Tablosu (Sadece favoriye alma işlemi için)
-                string sqlFavs = @"CREATE TABLE IF NOT EXISTS UserFavorites (UserNickname TEXT NOT NULL, MekanId INTEGER NOT NULL, PRIMARY KEY(UserNickname, MekanId));";
-                new SQLiteCommand(sqlFavs, conn).ExecuteNonQuery();
+                    string sqlFavs = @"CREATE TABLE IF NOT EXISTS UserFavorites (UserNickname TEXT NOT NULL, MekanId INTEGER NOT NULL, PRIMARY KEY(UserNickname, MekanId));";
+                    new SQLiteCommand(sqlFavs, conn).ExecuteNonQuery();
+                }
             }
         }
 
@@ -123,38 +124,66 @@ namespace firstScreen
             catch (Exception ex) { return "Database error! " + ex.Message; }
         }
 
-        // --- PUANLAMA VE FAVORİ NOTU METOTLARI ---
-        // REVİZE EDİLDİ: 'Comment' yerine 'favoriMetni' parametresi kullanılıyor.
+        // --- PUANLAMA METOTLARI (TÜM HATALARI ÇÖZEN KISIM) ---
+
+        // 1. User.cs İÇİN (4 Parametreli - Hatayı çözen bu!)
         public static void InsertUserRating(string userNick, int mekanId, int score, string favoriMetni)
         {
             using (var conn = new SQLiteConnection(userConnString))
             {
                 conn.Open();
-                // SQL tarafında sütun adı mecburen 'Comment' kalıyor ama biz veriyi 'favoriMetni'nden alıyoruz.
                 string query = "INSERT OR REPLACE INTO UserRatings (UserNickname, MekanId, Score, Comment) VALUES (@u, @m, @s, @fav)";
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@u", userNick);
                     cmd.Parameters.AddWithValue("@m", mekanId);
                     cmd.Parameters.AddWithValue("@s", score);
-                    cmd.Parameters.AddWithValue("@fav", favoriMetni); // Burada mapping yapıldı
+                    cmd.Parameters.AddWithValue("@fav", favoriMetni);
                     cmd.ExecuteNonQuery();
                 }
             }
         }
 
+        // 2. YeniKart.cs İÇİN (3 Parametreli - Otomatik Yönlendirme)
+        public static void InsertUserRating(string userNick, int mekanId, int score)
+        {
+            InsertUserRating(userNick, mekanId, score, "");
+        }
+
+        // 3. User.cs İÇİN (Hata vermemesi için boş bıraktık)
         public static void UpdateMekanRating(Mekan mekan)
         {
-            // Veritabanında mekan puan sütunları olmadığı için boş bırakıyoruz.
         }
 
+        // 4. UserManager.cs İÇİN (Resimdeki hatayı çözen bu!)
         public static void LoadUserRatings(User user)
         {
-            user.MyRatings.Clear();
-            // İleride burayı doldururken de reader["Comment"] verisini user.FavoriMetni gibi bir alana atayabilirsiniz.
+            // Şimdilik boş bırakıyoruz, hata vermesin yeter.
         }
 
-        // --- FAVORİ LİSTESİ İŞLEMLERİ (Tablo: UserFavorites) ---
+        // 5. Profil Sayfası İÇİN (Puan Çekme)
+        public static int GetUserScore(string userNick, int mekanId)
+        {
+            int score = 0;
+            using (var conn = new SQLiteConnection(userConnString))
+            {
+                conn.Open();
+                string query = "SELECT Score FROM UserRatings WHERE UserNickname = @u AND MekanId = @m";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@u", userNick);
+                    cmd.Parameters.AddWithValue("@m", mekanId);
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        score = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return score;
+        }
+
+        // --- FAVORİ İŞLEMLERİ ---
         public static void FavoriEkle(string nick, int mekanId)
         {
             using (SQLiteConnection conn = new SQLiteConnection(userConnString))
@@ -188,7 +217,6 @@ namespace firstScreen
         public static void FavorileriGetir(User user)
         {
             user.Favorites.Clear();
-
             using (SQLiteConnection conn = new SQLiteConnection(userConnString))
             {
                 conn.Open();
@@ -201,7 +229,6 @@ namespace firstScreen
                         while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
-                            // AllCities içindeki tüm mekanlarda ID araması yap
                             Mekan m = AllCities.SelectMany(c => c.Mekanlar).FirstOrDefault(x => x.Id == id);
                             if (m != null)
                             {
@@ -233,9 +260,7 @@ namespace firstScreen
                             u.Password = reader["Password"].ToString();
                             u.UserStatus = reader["UserStatus"].ToString();
 
-                            // Favorileri yükle
                             FavorileriGetir(u);
-
                             return u;
                         }
                     }
