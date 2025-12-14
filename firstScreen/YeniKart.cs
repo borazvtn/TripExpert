@@ -15,6 +15,8 @@ namespace firstScreen
         public YeniKart()
         {
             InitializeComponent();
+            // --- BU SATIRI EKLE, İSMİ RATE OLSUN ---
+            btnPuanVer.Text = "Rate";
         }
 
         // --- AKILLI YÜKLEME METODU ---
@@ -67,30 +69,43 @@ namespace firstScreen
 
         private void btnPuanVer_Click(object sender, EventArgs e)
         {
-            if (UserManager.CurrentUser == null) { MessageBox.Show("Puan vermek için giriş yapın."); return; }
+            // Giriş yapmamışsa uyarı (Please log in to rate)
+            if (UserManager.CurrentUser == null) { MessageBox.Show("Please log in to rate."); return; }
 
-            Form prompt = new Form() { Width = 300, Height = 150, Text = "Puan Ver", StartPosition = FormStartPosition.CenterScreen };
-            Label textLabel = new Label() { Left = 20, Top = 20, Text = "1-5 arası puan:" };
+            // Pencere Başlığı: Rate Place (Mekanı Puanla)
+            Form prompt = new Form() { Width = 300, Height = 150, Text = "Rate Place", StartPosition = FormStartPosition.CenterScreen };
+
+            // Etiket: Score (1-5)
+            Label textLabel = new Label() { Left = 20, Top = 20, Text = "Score (1-5):" };
+
             TextBox inputBox = new TextBox() { Left = 20, Top = 50, Width = 240 };
-            Button confirmation = new Button() { Text = "Tamam", Left = 180, Top = 80, DialogResult = DialogResult.OK };
+
+            // Buton: OK
+            Button confirmation = new Button() { Text = "OK", Left = 180, Top = 80, DialogResult = DialogResult.OK };
+
             prompt.Controls.Add(textLabel); prompt.Controls.Add(inputBox); prompt.Controls.Add(confirmation);
-            prompt.AcceptButton = confirmation; // Enter'a basınca onaylasın
+            prompt.AcceptButton = confirmation;
 
             if (prompt.ShowDialog() == DialogResult.OK)
             {
                 if (int.TryParse(inputBox.Text, out int verilenPuan) && verilenPuan >= 1 && verilenPuan <= 5)
                 {
-                    // --- İŞTE SİHİRLİ KOD BURASI ---
-                    MevcutMekan.AddPoint(verilenPuan); // Mekan.cs içindeki hesaplamayı çalıştırır
+                    // 1. Puanı RAM'e işle
+                    MevcutMekan.AddPoint(verilenPuan);
 
-                    MessageBox.Show("Teşekkürler! " + verilenPuan + " puan verdiniz.");
+                    // 2. Veritabanına kaydet
+                    DataManagement.InsertUserRating(UserManager.CurrentUser.Nickname, MevcutMekan.Id, verilenPuan);
 
-                    // Kartın üzerindeki puan yazısını (Label) anında güncelle
+                    // Başarılı Mesajı: Thanks! You rated X stars.
+                    MessageBox.Show("Thanks! You rated " + verilenPuan + " stars.");
+
+                    // Ekranı güncelle
                     BilgileriYukle(MevcutMekan);
                 }
                 else
                 {
-                    MessageBox.Show("Lütfen 1 ile 5 arasında sayı girin.");
+                    // Hata Mesajı: Lütfen 1-5 arası girin
+                    MessageBox.Show("Please enter a number between 1 and 5.");
                 }
             }
         }

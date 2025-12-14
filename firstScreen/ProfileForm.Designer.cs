@@ -32,12 +32,12 @@ namespace firstScreen
             ProfileToMain = new Button();
             ProfileLabel = new Label();
             ProfilePanel = new Panel();
+            lbFavorites = new ListBox();
             pictureBox1 = new PictureBox();
             label1 = new Label();
             ProfileNameLabel = new Label();
             ProfileSignOutButton = new Button();
             ProfileUserNameLabel = new Label();
-            lbFavorites = new ListBox();
             ProfilePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -75,6 +75,14 @@ namespace firstScreen
             ProfilePanel.Name = "ProfilePanel";
             ProfilePanel.Size = new Size(784, 469);
             ProfilePanel.TabIndex = 2;
+            // 
+            // lbFavorites
+            // 
+            lbFavorites.FormattingEnabled = true;
+            lbFavorites.Location = new Point(0, 3);
+            lbFavorites.Name = "lbFavorites";
+            lbFavorites.Size = new Size(32, 4);
+            lbFavorites.TabIndex = 8;
             // 
             // pictureBox1
             // 
@@ -123,14 +131,6 @@ namespace firstScreen
             ProfileUserNameLabel.Name = "ProfileUserNameLabel";
             ProfileUserNameLabel.Size = new Size(0, 38);
             ProfileUserNameLabel.TabIndex = 3;
-            // 
-            // lbFavorites
-            // 
-            lbFavorites.FormattingEnabled = true;
-            lbFavorites.Location = new Point(3, 168);
-            lbFavorites.Name = "lbFavorites";
-            lbFavorites.Size = new Size(209, 84);
-            lbFavorites.TabIndex = 8;
             // 
             // ProfileForm
             // 
