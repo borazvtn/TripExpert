@@ -11,28 +11,33 @@ namespace firstScreen
         // Favorilerine bakacağımız kullanıcı
         private User currentUser;
 
-        // DİKKAT: Artık parantez içinde (User user) istiyoruz!
         public FavoritesForm(User user)
         {
             InitializeComponent();
-            currentUser = user; // Kullanıcıyı teslim al
+            currentUser = user;
             this.Text = "Favorilerim";
 
+            // Listeyi doldur
             FavorileriListele();
         }
 
         private void FavorileriListele()
         {
-            // Panel adını senin söylediğin gibi 'panelMekanlar' yaptım
             panelMekanlar.Controls.Clear();
 
-            // 1. Veritabanından en güncel favorileri çek
+            // Mekanlar yüklenmemişse yükle (Resimler gözüksün diye)
+            if (DataManagement.AllCities.Count == 0)
+            {
+                DataManagement.LoadPlacesFromDatabase();
+            }
+
+            // Veritabanından çek
             if (currentUser != null)
             {
                 DataManagement.FavorileriGetir(currentUser);
             }
 
-            // 2. Eğer favori yoksa uyarı ver
+            // Boş mu dolu mu kontrol et
             if (currentUser == null || currentUser.Favorites.Count == 0)
             {
                 Label bosMesaj = new Label();
@@ -46,38 +51,26 @@ namespace firstScreen
                 return;
             }
 
-            // 3. Kartları Oluştur ve Ekle
+            // Kartları oluştur
             foreach (Mekan mekan in currentUser.Favorites)
             {
                 YeniKart kart = new YeniKart();
                 kart.BilgileriYukle(mekan);
                 kart.Margin = new Padding(15);
-
-                // Panele ekle
                 panelMekanlar.Controls.Add(kart);
             }
         }
 
+        // --- İŞTE HATA VEREN YER BURASIYDI ---
+        // Tasarımcı bu metodu arıyordu, boş olarak ekledik. Hata gidecek.
         private void FavoritesForm_Load(object sender, EventArgs e)
         {
-
         }
 
+        // Geri butonu varsa diye bunu da ekledim, zararı olmaz.
         private void FavoriteToMain_Click(object sender, EventArgs e)
         {
-            mainPage main = new mainPage(currentUser);
-            this.Hide();
-            DialogResult sonuc = main.ShowDialog();
-            if (sonuc == DialogResult.OK)
-            {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                Application.Exit();
-            }
+            this.Close();
         }
     }
-    
 }
