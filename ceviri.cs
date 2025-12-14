@@ -13,7 +13,7 @@ class Program
     static string DbPath = "/Users/bugragunay/Desktop/gezilecek_yerler.db";
     static string TableName = "places";
 
-    // 🔥 hız ayarları
+    
     static int BATCH_SIZE = 25;   // 25 description / batch (100-120 kelime dediğin için iyi)
     static int PAR = 4;           // aynı anda kaç batch işlenecek (OpenAI rate limit'e takılmasın)
     static int MAX_RETRIES = 5;
@@ -33,7 +33,6 @@ class Program
         using var conn = new SqliteConnection($"Data Source={DbPath}");
         conn.Open();
 
-        // ✅ sadece Türkçe karakter barındıranları seç (İngilizceye dokunma)
         using var selectCmd = conn.CreateCommand();
         selectCmd.CommandText = $@"
 SELECT id, description
@@ -69,7 +68,7 @@ WHERE description IS NOT NULL
 
         int totalUpdated = 0;
 
-        // ✅ paralel batch processing (semaphore ile limitli)
+     
         using var sem = new SemaphoreSlim(PAR);
         var tasks = new List<Task>();
 
@@ -192,7 +191,6 @@ No extra keys. No commentary. No markdown."
             }
 
             int code = (int)resp.StatusCode;
-            // 429 rate-limit / 5xx geçici -> retry
             if (code == 429 || code == 500 || code == 502 || code == 503)
             {
                 await Task.Delay(700 * attempt);
