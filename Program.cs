@@ -8,10 +8,9 @@ using Microsoft.Data.Sqlite;
 
 class Program
 {
-    // ✅ DB masaüstünde
+    
     static string DbPath = "/Users/bugragunay/Desktop/gezilecek_yerler.db";
 
-    // ✅ tablo adın buysa kalsın; değilse değiştir
     static string TableName = "places";
 
     static async Task Main()
@@ -26,7 +25,6 @@ class Program
         using var conn = new SqliteConnection($"Data Source={DbPath}");
         conn.Open();
 
-        // id + description çek
         using var selectCmd = conn.CreateCommand();
         selectCmd.CommandText = $"SELECT id, description FROM {TableName}";
 
@@ -41,7 +39,6 @@ class Program
         {
             var id = reader.GetInt32(0);
 
-            // NULL olabilir diye kontrol
             string? tr = reader.IsDBNull(1) ? null : reader.GetString(1);
             if (string.IsNullOrWhiteSpace(tr))
                 continue;
@@ -70,7 +67,6 @@ class Program
 
             count++;
 
-            // ufak throttle (istersen kaldır)
             await Task.Delay(150);
         }
 
@@ -79,7 +75,6 @@ class Program
 
     static async Task<string> TranslateToEnglish(HttpClient http, string turkishText)
     {
-        // Chat Completions endpoint (stabil)
         var url = "https://api.openai.com/v1/chat/completions";
 
         var payload = new
@@ -104,7 +99,6 @@ class Program
 
         using var doc = JsonDocument.Parse(respText);
 
-        // choices[0].message.content
         var result = doc.RootElement
             .GetProperty("choices")[0]
             .GetProperty("message")
