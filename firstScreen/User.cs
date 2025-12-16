@@ -13,7 +13,7 @@ namespace firstScreen
         public List<UserRatings> MyRatings { get; set; } = new List<UserRatings>();
 
         public User() { }
-
+        //constructor 
         public User(string name, string password, string nickname, string userStatus)
         {
             Name = name;
@@ -26,7 +26,7 @@ namespace firstScreen
         {
             if (score < 1) score = 1;
             if (score > 5) score = 5;
-
+        
             var existingRating = MyRatings.Find(r => r.Mekan.Id == mekan.Id);
 
             if (existingRating != null)
@@ -47,7 +47,7 @@ namespace firstScreen
             DataManagement.UpdateMekanRating(mekan);
         }
 
-        // --- GÜNCELLENEN METOT BURASI ---
+        
         public bool ToggleFavorite(Mekan mekan)
         {
             Mekan foundMekan = Favorites.Find(m => m.Id == mekan.Id);
@@ -58,7 +58,7 @@ namespace firstScreen
                 Favorites.Remove(foundMekan);
                 mekan.ChangeFavorite(false);
 
-                // VERİTABANINDAN SİL [YENİ]
+                // VERİTABANINDAN SİL
                 DataManagement.FavoriSil(this.Nickname, mekan.Id);
 
                 return false;
@@ -69,7 +69,7 @@ namespace firstScreen
                 Favorites.Add(mekan);
                 mekan.ChangeFavorite(true);
 
-                // VERİTABANINA EKLE [YENİ]
+                // VERİTABANINA EKLE 
                 DataManagement.FavoriEkle(this.Nickname, mekan.Id);
 
                 return true;
