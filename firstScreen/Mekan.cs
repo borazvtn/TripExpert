@@ -2,18 +2,18 @@ namespace firstScreen
 {
     public class Mekan
     {
-        public int Id { get; set; } // ID yerine Id yaptım
+        public int Id { get; set; } 
         public string Name { get; set; }
-        public string Description { get; set; } // VERİTABANI İÇİN GERİ EKLENDİ
-        public string Type { get; set; }        // VERİTABANI İÇİN GERİ EKLENDİ
-        public string ImageUrl { get; set; }    // ImageURL yerine ImageUrl
+        public string Description { get; set; } 
+        public string Type { get; set; }        
+        public string ImageUrl { get; set; } 
         
         // Puanlama Sistemi
         public int TotalScore { get; set; } = 0;
         public int VoteCount { get; set; } = 0;
         public int FavoriteCount { get; set; } = 0;
 
-        // Otomatik hesaplanan ortalama (Veritabanına yazılmaz, hesaplanır)
+        // Otomatik hesaplanan ortalama
         public double AverageScore
         {
             get
