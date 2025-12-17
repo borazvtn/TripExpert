@@ -65,7 +65,7 @@ namespace firstScreen
         }
 
         // -----------------------------------------------------------
-        // KULLANICI VERİLERİ (Belgelerim Klasöründe Tutulur - SİLİNMEZ!)
+        // KULLANICI VERİLERİ 
         // -----------------------------------------------------------
 
         // Veritabanı dosyasının yolu: Belgelerim\KullaniciVerileri.db
@@ -124,9 +124,9 @@ namespace firstScreen
             catch (Exception ex) { return "Database error! " + ex.Message; }
         }
 
-        // --- PUANLAMA METOTLARI (TÜM HATALARI ÇÖZEN KISIM) ---
+        // --- PUANLAMA METOTLARI ---
 
-        // 1. User.cs İÇİN (4 Parametreli - Hatayı çözen bu!)
+        // 1. User.cs 
         public static void InsertUserRating(string userNick, int mekanId, int score, string favoriMetni)
         {
             using (var conn = new SQLiteConnection(userConnString))
@@ -144,24 +144,24 @@ namespace firstScreen
             }
         }
 
-        // 2. YeniKart.cs İÇİN (3 Parametreli - Otomatik Yönlendirme)
+        // 2. YeniKart.cs 
         public static void InsertUserRating(string userNick, int mekanId, int score)
         {
             InsertUserRating(userNick, mekanId, score, "");
         }
 
-        // 3. User.cs İÇİN (Hata vermemesi için boş bıraktık)
+        // 3. User.cs 
         public static void UpdateMekanRating(Mekan mekan)
         {
         }
 
-        // 4. UserManager.cs İÇİN (Resimdeki hatayı çözen bu!)
+        // 4. UserManager.cs 
         public static void LoadUserRatings(User user)
         {
-            // Şimdilik boş bırakıyoruz, hata vermesin yeter.
+            
         }
 
-        // 5. Profil Sayfası İÇİN (Puan Çekme)
+        // 5. Profil Sayfası 
         public static int GetUserScore(string userNick, int mekanId)
         {
             int score = 0;
